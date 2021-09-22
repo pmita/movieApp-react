@@ -1,35 +1,47 @@
-import { join } from 'path';
-// eslint-disable-next-line no-undef
-import MiniCssExtractPlugin, { loader as _loader } from 'mini-css-extract-plugin';
+/* eslint-disable no-undef */
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-export const output = {
-    // eslint-disable-next-line no-undef
-    path     : join(__dirname, '/dist'),
-    filename : 'index.bundle.js'
-};
-export const devServer = {
-    historyApiFallback : true,
-    port               : 4000,
-    open               : true,
-    hot                : true
-};
-export const module = {
-    rules : [
-        {
-            test    : /\.(js|jsx)$/,
-            exclude : /node_modules/,
-            use     : {
-                use : [ 'babel-loader', 'eslint-loader' ]
-            }
+module.exports = {
+        entry  : path.resolve(__dirname, './src/index.js'),
+        output : {
+            path     : path.join(__dirname, '/dist'), 
+            filename : 'index.bundle.js' 
+        }, // will run in the browser
+          devServer : {
+            historyApiFallback : true,
+            port               : 4000, 
+            open               : true,
+            hot                : true
         },
-        {
-            test : /\.scss$/,
-            use  : [
-                _loader,
-                'css-loader',
-                'sass-loader'
+        module : { 
+            rules : [ 
+                {
+                    test    : /\.(js|jsx)$/, 
+                    exclude : /node_modules/, 
+                    use     : [ 'babel-loader', 'eslint-loader' ]
+                },
+                {
+                    test : /\.scss$/,
+                    use  : [
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                }
             ]
-        }
-    ]
-};
-export const plugins = [ new MiniCssExtractPlugin() ];
+        },
+        plugins : [ 
+            new MiniCssExtractPlugin({
+                filename : 'main.css'
+            }),
+            new HtmlWebpackPlugin({
+                template : './public/index.html',
+                title    : 'Movie App',
+                filename : 'index.html',
+                inject   : 'body'
+
+            })
+        ]
+    };
