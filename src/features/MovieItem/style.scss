@@ -1,0 +1,21 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+.movieItem-section{
+    color: $white-color;
+    font-weight: 200;
+    img{
+        height: 90%;
+        width: 100%;
+        object-fit: cover;
+    }
+    .movieItem-details{
+        @include flex(row, space-between, center);
+        color: $white-color;
+        padding: 1rem 0;
+    }
+    .movieItem-category{
+        font-size: h6;
+    }
+}
