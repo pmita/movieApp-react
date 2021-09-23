@@ -146,7 +146,6 @@
         "no-useless-rename": 2,
         "no-var": 2,
         "no-whitespace-before-property": 2,
-        "object-curly-newline": 0,
         "object-curly-spacing": [ 2, "always" ],
         "object-property-newline": [ 2, { "allowMultiplePropertiesPerLine": true } ],
         "prefer-const": 2,

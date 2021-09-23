@@ -1,10 +1,12 @@
 import React from 'react';
+// import our banner
+import Banner from './features/Banner';
 
 export const App = () => 
 {
   return (
 	<div>
-		<h1>Hello from App.js file</h1>
+		<Banner />
 	</div>
   );
 };

@@ -1,0 +1,32 @@
+// import our re-usable css
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+.bannerSection{
+    height: 70vh;
+    width: 100%;
+    position: relative;
+    @include flex(column, center, center);
+    padding: 1rem 5rem;
+    &::after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0B0B0B;
+        opacity: 0.25;
+        z-index: -1;
+    }
+    .bannerSection-img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -2;
+    }
+}
