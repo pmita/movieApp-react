@@ -3,18 +3,18 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const isProd = process.env.NODE_ENV === 'production';
+const cssDev =[ 'style-loader', 'css-loader', 'sass-loader' ];
+const cssProd = [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader' ];
+const cssConfig = isProd ? cssProd : cssDev;
+
 module.exports = {
+        mode   : !isProd ? 'development' : 'production',
         entry  : path.resolve(__dirname, './src/index.js'),
         output : {
             path     : path.join(__dirname, '/dist'), 
             filename : 'index.bundle.js' 
-        }, // will run in the browser
-          devServer : {
-            historyApiFallback : true,
-            port               : 4000, 
-            open               : true,
-            hot                : true
-        },
+        }, 
         module : { 
             rules : [ 
                 {
@@ -24,18 +24,12 @@ module.exports = {
                 },
                 {
                     test : /\.scss$/,
-                    use  : [
-                        MiniCssExtractPlugin.loader,
-                        'css-loader',
-                        'sass-loader'
-                    ]
+                    use  : cssConfig
                 }
             ]
         },
-        plugins : [ 
-            new MiniCssExtractPlugin({
-                filename : 'main.css'
-            }),
+        plugins : [
+            new MiniCssExtractPlugin({ filename: 'main.css' }), 
             new HtmlWebpackPlugin({
                 template : './public/index.html',
                 title    : 'Movie App',
