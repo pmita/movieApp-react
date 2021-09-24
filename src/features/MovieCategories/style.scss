@@ -1,0 +1,22 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+.movieSection-categories{
+    flex: 3;
+}
+
+.category-items{
+    @include flex(row, flex-start, center);
+    h4{
+        padding: 1rem;
+        color: $white-color;
+        &:hover{
+            cursor: pointer;
+        }
+        &.active{
+            border-bottom: 2px solid $red-color;
+        }
+    }
+}
+

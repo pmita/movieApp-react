@@ -1,0 +1,11 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+@import '../../assets/styles/global';
+
+footer{
+    background: $light-grey-color;
+    color: $red-color;
+    width: 100%;
+    min-height: 5vh;
+    @include flex(row, center, center);
+}

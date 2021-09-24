@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 // import components
+import MovieCategories from '../MovieCategories';
+import MovieFilters from '../MovieFilters';
 import MovieItem from '../MovieItem';
 // import mockData 
 import { mockData } from '../../assets/data/MockData';
@@ -20,7 +22,11 @@ export default class component extends Component
 {
         return (
 	<section className='moviesSection'>
-		<h2 className='moviesSection-totalMovies'>
+		<div className='moviesSection-options'>
+			<MovieCategories />
+			<MovieFilters />
+		</div>
+		<h2 className='moviesSection-items'>
 			<span>{this.state.movies.length}</span> movies found
 		</h2>
 		<div className='itemsSection'>
