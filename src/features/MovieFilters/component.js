@@ -7,15 +7,6 @@ export default class component extends Component
     constructor(props)
 {
         super(props);
-        this.state = {
-            filterValue : 'RELEASE DATE'
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
-    // define our event handlers
-    handleChange(e) 
-{
-        this.setState({ filterValue: e.target.value });
     }
     render() 
 {
@@ -23,13 +14,36 @@ export default class component extends Component
 	<aside className='movieSection-filters'>
 		<p>SORT BY</p>
 		<select 
-			value={this.state.filterValue}
-			onChange={this.handleChange}
+			value={this.props.filter}
+			onChange={(e) => this.props.handleChangeFilter(e)}
 		>
-			<option value='RELEASE DATE'>RELEASE DATE</option>
-			<option value='STARS'>STARS</option>
+			<option
+				value='RELEASE DATE'
+			>
+				RELEASE DATE
+			</option>
+			<option
+				value='STARS'
+			>
+				STARS
+			</option>
 		</select>
 	</aside>
         );
     }
 }
+
+/*
+		<select 
+			value='Hello'
+		>
+			{this.props.filters.map((filterItem, index) => (
+				<option
+					key={index}
+					value={filterItem.name}
+				>
+					{filterItem.name}
+				</option>
+            ))}
+		</select>
+*/

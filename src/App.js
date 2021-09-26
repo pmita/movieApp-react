@@ -1,5 +1,5 @@
 import React from 'react';
-// import our banner
+// import our components
 import Banner from './features/Banner';
 import Movies from './features/Movies';
 import Footer from './shared/Footer';
