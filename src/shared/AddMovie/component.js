@@ -7,7 +7,7 @@ export default class component extends Component {
     }
     render() {
         return (
-	<div className={this.props.isHidden ? 'addMovie-section' : 'addMovie-section hidden'}>
+	<div className={this.props.isHidden ? 'addMovie-section hidden' : 'addMovie-section'}>
 		<div className='addMovie-details'>
 			<h2>ADD MOVIE</h2>
 			<form onSubmit={(e) => this.props.handleSubmitMovie(e)}>

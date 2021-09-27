@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-handler-names */
 /* eslint-disable no-console */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 // import components
 import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
@@ -17,17 +18,7 @@ export default class component extends Component {
     constructor(props){
         super(props);
         this.state = {
-			isHidden : true,
-			movieItem : {
-				name : '',
-				date : '',
-				category : '',
-				rating : '',
-				img : '',
-				overview : '',
-				id : ''
-
-			},
+			movieItem : {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''},
             movies       : mockData,
 			moviesToShow : mockData,
 			categories   : [
@@ -50,7 +41,7 @@ export default class component extends Component {
     }
 
 	handleCancelAddMovie(){
-		this.setState({ isHidden : !this.state.isHidden });
+		this.props.handleToggleIsHidden();
 		this.handleResetMovie();
 	}
 
@@ -122,7 +113,7 @@ export default class component extends Component {
 	}
 
 	handleEditMovie(currentMovieId){
-		this.setState({ isHidden : !this.state.isHidden });
+		this.props.handleToggleIsHidden();
 		const movieItemUpdated = this.state.moviesToShow.filter((item) => item.id === currentMovieId);
 		this.setState({ movieItem : movieItemUpdated[0] });
 	}
@@ -137,7 +128,7 @@ export default class component extends Component {
         return (
 	<section className='moviesSection'>
 		<AddMovie 
-			isHidden={this.state.isHidden}
+			isHidden={this.props.isHidden}
 			movieItem={this.state.movieItem}
 			// eslint-disable-next-line react/jsx-handler-names
 			handleCancelAddMovie={this.handleCancelAddMovie}
@@ -178,3 +169,49 @@ export default class component extends Component {
         );
     }
 }
+
+component.propTypes = {
+	isHidden : PropTypes.bool,
+	handleToggleIsHidden : PropTypes.func,
+	movieItem : PropTypes.object,
+	movies : PropTypes.arrayOf(PropTypes.object),
+	moviesToShow : PropTypes.arrayOf(PropTypes.object),
+	categories   : PropTypes.arrayOf(PropTypes.object),
+	filter : PropTypes.string
+};
+
+component.defaultProps = {
+	movieItem : {
+		name : '', 
+		date : '', 
+		category : '', 
+		rating : '', 
+		img : '', 
+		overview : '', 
+		id : ''
+	},
+	movies : [
+		{
+			name     : 'The Movie',
+			date     : '01 January 2000',
+			category : 'Movie',
+			rating   : 5.0,
+			img      : '',
+			id       : uuidv4(),
+			overview : 'A very fun movie to watch'
+		}
+	],
+	moviesToShow : [     
+		{
+			name     : 'The Movie',
+			date     : '01 January 2000',
+			category : 'Movie',
+			rating   : 5.0,
+			img      : '',
+			id       : uuidv4(),
+			overview : 'A very fun movie to watch'
+		}
+	],
+	categories   : { name: 'ALL', active: true },
+	filter : 'RELEASE DATE'
+};

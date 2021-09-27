@@ -3,6 +3,9 @@ import './style.scss';
 
 export default class component extends Component 
 {
+	constructor(props){
+		super(props);
+	}
     render() 
 {
         return (
@@ -11,7 +14,7 @@ export default class component extends Component
 			<h4 id='logo'><span className='logo-highlight'>netflix</span>roulette</h4>
 		</div>
 		<div className='navSection-right'>
-			<button className='btn-addItem'>
+			<button className='btn-addItem' onClick={this.props.handleToggleIsHidden}>
 				+ ADD MOVIE
 			</button>
 		</div>
