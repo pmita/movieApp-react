@@ -20,14 +20,15 @@ export default class App extends Component {
 			this.setState({ isHidden: !this.state.isHidden });
 		}
 	render() {
+		const {isHidden} = this.state;
 		return (
 			<div>
 				<Banner 
-					isHidden={this.state.isHidden} 
+					isHidden={isHidden} 
 					handleToggleIsHidden={this.handleToggleIsHidden}
 				/>
 				<Movies 
-					isHidden={this.state.isHidden} 
+					isHidden={isHidden} 
 					handleToggleIsHidden={this.handleToggleIsHidden}
 				/>
 				<Footer />

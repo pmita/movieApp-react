@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './style.scss';
 
 export default class MovieItem extends Component {
-	constructor(props){
-		super(props);
-	}
-
 	render() {
 		return (
 			<div className='movieItem-section'>

@@ -1,6 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable react/jsx-handler-names */
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import components
@@ -8,6 +6,7 @@ import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
 import MovieFilters from '../MovieFilters';
 import AddMovie from '../../shared/AddMovie';
+import {filterArray} from '../../assets/functions/util';
 // import mockData 
 import { mockData } from '../../assets/data/MockData';
 import { v4 as uuidv4 } from 'uuid';
@@ -106,31 +105,21 @@ export default class Movies extends Component {
 	handleChangeFilter(e) {
 		this.setState({ filter: `${e.target.value}` });
 		// sort movies by eityher stars or release date
-		let moviesToShowUpdated;
-
-		if (e.target.value === 'STARS'){
-			moviesToShowUpdated = this.state.moviesToShow.sort((a, b) => {
-				return b.rating - a.rating;
-			});
-		} else if (e.target.value === 'RELEASE DATE') {
-			moviesToShowUpdated = this.state.moviesToShow.sort((a, b) => {
-				const dateA = new Date(a.date);
-				const dateB = new Date(b.date);
-				
-				return dateB - dateA;
-			});
-		}
+		const filterValue = e.target.value;
+		const arrayToFilter = this.state.moviesToShow;
+		let moviesToShowUpdated = filterArray(filterValue, arrayToFilter);
 		this.setState({ moviesToShowUpdated: moviesToShowUpdated });
 	}
 
-    render() 
-{
+    render() {
+		// eslint-disable-next-line no-unused-vars
+		const {movieItem, movies, moviesToShow, categories, filter} = this.state;
         return (
 	<section className='moviesSection'>
 		{!this.props.isHidden 
 			&& <AddMovie 
 				isHidden={this.props.isHidden}
-				movieItem={this.state.movieItem}
+				movieItem={movieItem}
 				// eslint-disable-next-line react/jsx-handler-names
 				handleCancelAddMovie={this.handleCancelAddMovie}
 				handleChangeMovieDetails={this.handleChangeMovieDetails}
@@ -140,21 +129,21 @@ export default class Movies extends Component {
 		}
 		<div className='moviesSection-options'>
 			<MovieCategories 
-				categories={this.state.categories}
+				categories={categories}
 				// eslint-disable-next-line react/jsx-handler-names
 				handleChangeCategory={this.handleChangeCategory}
 			/>
 			<MovieFilters
-				filters={this.state.filters}
+				filters={filter}
 				// eslint-disable-next-line react/jsx-handler-names
 				handleChangeFilter={this.handleChangeFilter}
 			/>
 		</div>
 		<h2 className='moviesSection-items'>
-			<span>{this.state.moviesToShow.length}</span> movies found
+			<span>{moviesToShow.length}</span> movies found
 		</h2>
 		<div className='itemsSection'>
-			{this.state.moviesToShow.map((item) => (
+			{moviesToShow.map((item) => (
 				<MovieItem
 					key={item.id}
 					name={item.name}

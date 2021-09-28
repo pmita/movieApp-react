@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class Navbar extends Component 
-{
-	constructor(props){
-		super(props);
-	}
-    render() 
-{
+export default class Navbar extends Component {
+    render() {
         return (
 	<nav className='navSection'>
 		<div className='navSection-left'>

@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class MovieFilters extends Component 
-{
-    // define our state
-    constructor(props)
-{
-        super(props);
-    }
-    render() 
-{
+export default class MovieFilters extends Component {
+    render() {
         return (
 	<aside className='movieSection-filters'>
 		<p>SORT BY</p>
 		<select 
 			value={this.props.filter}
-			onChange={(e) => this.props.handleChangeFilter(e)}
+			onChange={this.props.handleChangeFilter}
 		>
 			<option
 				value='RELEASE DATE'

@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class MovieCategories extends Component 
-{
-    // define our state
-    constructor(props)
-{
-        super(props);
-    }
-
-    render() 
-{
+export default class MovieCategories extends Component {
+    render() {
         return (
 	<aside className='movieSection-categories'>
 		<ul className='category-items'>
@@ -18,7 +10,7 @@ export default class MovieCategories extends Component
 				<h4 
 					key={index} 
 					className={item.active ? 'category-item active' : 'category-item'}
-					onClick={(e) => this.props.handleChangeCategory(e)}
+					onClick={this.props.handleChangeCategory}
 				>
 					{item.name}
 				</h4>
