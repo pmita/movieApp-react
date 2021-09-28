@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class component extends Component 
+export default class Navbar extends Component 
 {
 	constructor(props){
 		super(props);

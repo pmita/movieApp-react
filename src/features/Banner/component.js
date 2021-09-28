@@ -5,7 +5,7 @@ import Navbar from '../../shared/Navbar';
 import SearchMovie from '../../shared/SearchMovie';
 import './style.scss';
 
-export default class component extends Component 
+export default class Banner extends Component 
 {
 	constructor(props){
 		super(props);

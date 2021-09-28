@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class component extends Component 
+export default class MovieFilters extends Component 
 {
     // define our state
     constructor(props)
@@ -32,18 +32,3 @@ export default class component extends Component
         );
     }
 }
-
-/*
-		<select 
-			value='Hello'
-		>
-			{this.props.filters.map((filterItem, index) => (
-				<option
-					key={index}
-					value={filterItem.name}
-				>
-					{filterItem.name}
-				</option>
-            ))}
-		</select>
-*/

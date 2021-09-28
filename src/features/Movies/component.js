@@ -13,7 +13,7 @@ import { mockData } from '../../assets/data/MockData';
 import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
 
-export default class component extends Component {
+export default class Movies extends Component {
     // define our state
     constructor(props){
         super(props);
@@ -45,24 +45,35 @@ export default class component extends Component {
 		this.handleResetMovie();
 	}
 
+	handleSubmitMovie(e){ // Add AddMovieItem form details in the moviesToShow[] 
+		e.preventDefault();
+		this.setState({ 
+			moviesToShow : [...this.state.moviesToShow, {...this.state.movieItem, id : uuidv4()}]
+		});
+		this.props.handleToggleIsHidden();
+	}
+	
+	handleResetMovie(){ // Reset AddMovieItem form
+		this.setState({ 
+			movieItem : {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''}
+		});
+	}
+	
 	handleChangeMovieDetails(e){ // Update each form field as the user types
 		let formValue = this.state.movieItem;
 		formValue[e.target.name] = e.target.value;
 		this.setState({ movieItem : formValue });
 	}
 
-	handleSubmitMovie(e){ // Add AddMovieItem form details in the moviesToShow[] 
-		e.preventDefault();
-		this.setState({ 
-			moviesToShow : [...this.state.moviesToShow, {...this.state.movieItem, id : uuidv4()}],
-			isHidden : false 
-		});
+	handleEditMovie(currentMovieId){
+		this.props.handleToggleIsHidden();
+		const movieItemUpdated = this.state.moviesToShow.filter((item) => item.id === currentMovieId);
+		this.setState({ movieItem : movieItemUpdated[0] });
 	}
 
-	handleResetMovie(){ // Reset AddMovieItem form
-		this.setState({ movieItem : {
-			name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''
-		}});
+	handleRemoveMovie(currentMovieId){
+		const moviesItemUpdated = this.state.moviesToShow.filter((item) => item.id !== currentMovieId);
+		this.setState({ moviesToShow : moviesItemUpdated });
 	}
 
 
@@ -112,30 +123,21 @@ export default class component extends Component {
 		this.setState({ moviesToShowUpdated: moviesToShowUpdated });
 	}
 
-	handleEditMovie(currentMovieId){
-		this.props.handleToggleIsHidden();
-		const movieItemUpdated = this.state.moviesToShow.filter((item) => item.id === currentMovieId);
-		this.setState({ movieItem : movieItemUpdated[0] });
-	}
-
-	handleRemoveMovie(currentMovieId){
-		const moviesItemUpdated = this.state.moviesToShow.filter((item) => item.id !== currentMovieId);
-		this.setState({ moviesToShow : moviesItemUpdated });
-	}
-
     render() 
 {
         return (
 	<section className='moviesSection'>
-		<AddMovie 
-			isHidden={this.props.isHidden}
-			movieItem={this.state.movieItem}
-			// eslint-disable-next-line react/jsx-handler-names
-			handleCancelAddMovie={this.handleCancelAddMovie}
-			handleChangeMovieDetails={this.handleChangeMovieDetails}
-			handleSubmitMovie={this.handleSubmitMovie}
-			handleResetMovie={this.handleResetMovie}
-		/>
+		{!this.props.isHidden 
+			&& <AddMovie 
+				isHidden={this.props.isHidden}
+				movieItem={this.state.movieItem}
+				// eslint-disable-next-line react/jsx-handler-names
+				handleCancelAddMovie={this.handleCancelAddMovie}
+				handleChangeMovieDetails={this.handleChangeMovieDetails}
+				handleSubmitMovie={this.handleSubmitMovie}
+				handleResetMovie={this.handleResetMovie}
+			   />
+		}
 		<div className='moviesSection-options'>
 			<MovieCategories 
 				categories={this.state.categories}
@@ -170,7 +172,7 @@ export default class component extends Component {
     }
 }
 
-component.propTypes = {
+Movies.propTypes = {
 	isHidden : PropTypes.bool,
 	handleToggleIsHidden : PropTypes.func,
 	movieItem : PropTypes.object,
@@ -180,38 +182,5 @@ component.propTypes = {
 	filter : PropTypes.string
 };
 
-component.defaultProps = {
-	movieItem : {
-		name : '', 
-		date : '', 
-		category : '', 
-		rating : '', 
-		img : '', 
-		overview : '', 
-		id : ''
-	},
-	movies : [
-		{
-			name     : 'The Movie',
-			date     : '01 January 2000',
-			category : 'Movie',
-			rating   : 5.0,
-			img      : '',
-			id       : uuidv4(),
-			overview : 'A very fun movie to watch'
-		}
-	],
-	moviesToShow : [     
-		{
-			name     : 'The Movie',
-			date     : '01 January 2000',
-			category : 'Movie',
-			rating   : 5.0,
-			img      : '',
-			id       : uuidv4(),
-			overview : 'A very fun movie to watch'
-		}
-	],
-	categories   : { name: 'ALL', active: true },
-	filter : 'RELEASE DATE'
-};
+
+

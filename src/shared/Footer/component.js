@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss';
 
-const component = () => 
+const Footer = () => 
 {
     return (
 	<footer>
@@ -10,4 +10,4 @@ const component = () =>
     );
 };
 
-export default component;
+export default Footer;
