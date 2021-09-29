@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
 
-export default class SearchBar extends Component 
-{
-    // defining our state
-    constructor(props) 
-{
-        super(props);
-        this.state = {
-            value : ''
-        };
-        // bind our state with our methods
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
+const SearchBar = () => {
+    // define our local state
+    const [searchInput, setSearchInput] = useState('');
 
-    // defining our event handlers
-    handleSubmit(e) 
-{
+    // define our events handlers
+    const searchMovieHandler = (e) => {
         e.preventDefault();
     }
-    handleChange(e) 
-{
-        this.setState({ value: e.target.value });
+    const changeSearchInputHandler = (e) => {
+        setSearchInput(e.target.value);
     }
-
-    render() 
-{
-        return (
+    return(
 	<div className='bannerSection-searchBar'>
 		<h1 className='bannerSection-title'>FIND YOUR MOVIE</h1>
-		<form onSubmit={this.handleSubmit}>
+		<form onSubmit={searchMovieHandler}>
 			<input 
 				type='text' 
 				placeholder='What movie do you want to see?'
-				value={this.state.value}
-				onChange={this.handleChange}
+				value={searchInput}
+				onChange={changeSearchInputHandler}
 			/>
 			<button className='btn-searchMovie'>SEARCH</button>
 		</form>
 	</div>
-        );
-    }
+    );
 }
+
+export default SearchBar;
+

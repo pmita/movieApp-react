@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Banner from './features/Banner';
 import Movies from './features/Movies';
 import Footer from './shared/Footer';
+// import our context
+import { ProjectProvider } from './store/ProjectContext';
 import './App.scss';
 
 
@@ -22,17 +24,18 @@ export default class App extends Component {
 	render() {
 		const {isHidden} = this.state;
 		return (
-			<div>
-				<Banner 
-					isHidden={isHidden} 
-					handleToggleIsHidden={this.handleToggleIsHidden}
-				/>
-				<Movies 
-					isHidden={isHidden} 
-					handleToggleIsHidden={this.handleToggleIsHidden}
-				/>
-				<Footer />
-			</div>
+			<ProjectProvider>
+				<div>
+					<Banner 
+						handleToggleIsHidden={this.handleToggleIsHidden}
+					/>
+					<Movies 
+						isHidden={isHidden} 
+						handleToggleIsHidden={this.handleToggleIsHidden}
+					/>
+					<Footer />
+				</div>
+			</ProjectProvider>
 		);
 	}
 }
