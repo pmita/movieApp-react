@@ -1,17 +1,21 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, {useContext} from 'react';
 // import our state provider
+import { ProjectContext } from '../../store/ProjectContext';
 // import components
 import Navbar from '../../shared/Navbar';
 import SearchMovie from '../../shared/SearchMovie';
 // import styling
 import style from './style.module.scss';
 
-const Banner = ({handleToggleIsHidden}) => {
+const Banner = () => {
+	// bind our Context api state locally
+	const [isHidden, setIsHidden] = useContext(ProjectContext);
 	return(
 		<section className={style.bannerSection}>
 			<Navbar 
-				handleToggleIsHidden={handleToggleIsHidden}
+				isHidden={isHidden}
+				setIsHidden={setIsHidden}
 			/>
 			<img 
 				className={style.bannerSection_img}

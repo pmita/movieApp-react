@@ -10,29 +10,12 @@ import './App.scss';
 
 
 export default class App extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			isHidden : true
-		}
-		this.handleToggleIsHidden = this.handleToggleIsHidden.bind(this);
-	}
-
-		handleToggleIsHidden() {
-			this.setState({ isHidden: !this.state.isHidden });
-		}
 	render() {
-		const {isHidden} = this.state;
 		return (
 			<ProjectProvider>
 				<div>
-					<Banner 
-						handleToggleIsHidden={this.handleToggleIsHidden}
-					/>
-					<Movies 
-						isHidden={isHidden} 
-						handleToggleIsHidden={this.handleToggleIsHidden}
-					/>
+					<Banner />
+					<Movies />
 					<Footer />
 				</div>
 			</ProjectProvider>
