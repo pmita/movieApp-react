@@ -8,11 +8,12 @@ const MovieItem = ({
 	img,
 	id,
 	editMovieHandler,
-	removeMovie
+	removeMovie,
+	showMovieDetailsHandler
 }) => {
 	return(
 		<div className='movieItem-section'>
-			<img src={img} alt='random text' />
+			<img src={img} alt='random text' onClick={() => showMovieDetailsHandler(id)}/>
 			<ul className='movieItem-details'>
 				<h4>{name}</h4>
 				<h4>{date}</h4>

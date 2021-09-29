@@ -15,6 +15,9 @@ const Movies = () => {
     // bind our Context api state with our component
     const [
         isHidden, setIsHidden, 
+        showMovie, setShowMovie,
+        // eslint-disable-next-line no-unused-vars
+        movieDetails, setMovieDetails,
         movieItem, setMovieItem,
         // eslint-disable-next-line no-unused-vars
         movies, setMovies,
@@ -23,8 +26,14 @@ const Movies = () => {
         filter, setFilter
     ] = useContext(ProjectContext);
 
-
     // define our event handlers
+    const showMovieDetailsHandler = (movieId) => {
+        setShowMovie(!showMovie);
+        const movieDetailsUpdated = moviesToShow.filter((item) => item.id === movieId);
+        setMovieDetails(movieDetailsUpdated[0]);
+        // console.log(movieDetails);
+    }
+
     const cancelAddMovieHandler = () => {
         setIsHidden(!isHidden);
         resetMovieHandler();
@@ -125,6 +134,7 @@ const Movies = () => {
 					id={item.id}
 					editMovieHandler={editMovieHandler}
 					removeMovie={removeMovie}
+					showMovieDetailsHandler={showMovieDetailsHandler}
 				/>
         ))}
 		</div>

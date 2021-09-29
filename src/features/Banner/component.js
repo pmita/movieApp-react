@@ -5,12 +5,14 @@ import { ProjectContext } from '../../store/ProjectContext';
 // import components
 import Navbar from '../../shared/Navbar';
 import SearchMovie from '../../shared/SearchMovie';
+import MovieDetails from '../MovieDetails/component';
 // import styling
 import style from './style.module.scss';
 
 const Banner = () => {
 	// bind our Context api state locally
-	const [isHidden, setIsHidden] = useContext(ProjectContext);
+	// eslint-disable-next-line no-unused-vars
+	const [isHidden, setIsHidden, showMovie, setShowMovie, movieDetails] = useContext(ProjectContext);
 	return(
 		<section className={style.bannerSection}>
 			<Navbar 
@@ -22,7 +24,14 @@ const Banner = () => {
 				src='https://images.pexels.com/photos/7991565/pexels-photo-7991565.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260' 
 				alt='background for our banner'
 			/>
-			<SearchMovie />
+			{showMovie
+				? <MovieDetails 
+						showMovie={showMovie} 
+						setShowMovie={setShowMovie} 
+						movieDetails={movieDetails} 
+				  />
+				: <SearchMovie />
+			}
 		</section>
 	);
 } 

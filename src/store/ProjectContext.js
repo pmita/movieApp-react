@@ -9,6 +9,8 @@ export const ProjectProvider = (props) => {
     // defining our state
     // const [testValue, setTestValue] = useState('Test from Test Value');
     const [isHidden, setIsHidden] = useState(true);
+    const [showMovie, setShowMovie] = useState(false);
+    const [movieDetails, setMovieDetails] = useState({});
     const [movieItem, setMovieItem] = useState({});
     const [movies, setMovies] = useState([]);
     const [moviesToShow, setMoviesToShow] = useState([]);
@@ -36,6 +38,8 @@ export const ProjectProvider = (props) => {
 	<ProjectContext.Provider 
 		value={[ 
             isHidden, setIsHidden, 
+            showMovie, setShowMovie,
+            movieDetails, setMovieDetails,
             movieItem, setMovieItem,
             movies, setMovies,
             moviesToShow, setMoviesToShow,
