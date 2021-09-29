@@ -15,7 +15,7 @@ const AddMovie = ({
 				<form onSubmit={submitMovieHandler}>
 					<label>
 						TITLE
-						<input type='text' name='name' value={movieItem.name} onChange={(e) => updateMovieDetailsHandler(e)} required/>
+						<input type='text' name='name' value={movieItem.name} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						RELEASE DATE

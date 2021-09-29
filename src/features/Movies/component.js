@@ -45,7 +45,8 @@ const Movies = () => {
     const updateMovieDetailsHandler = (e) => { // not sure about this one??
         const formValue = movieItem;
         formValue[e.target.name] = e.target.value;
-        setMovieItem(formValue);
+        console.log(formValue);
+        setMovieItem({...movieItem, formValue});
     }
 
     const editMovieHandler = (movieId) => {
