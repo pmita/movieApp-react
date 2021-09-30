@@ -1,0 +1,44 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+.navSection{
+    min-height: 10vh;
+    width: 100%;
+    @include flex(row, space-between, center);
+    background: transparent;
+    padding: 0 10rem;
+    // positioning the navbar at the top
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.navSection-left{
+    flex: 1;
+    h4{
+        color: $red-color;
+        .logo-highlight{
+            font-weight: 900;
+            font-size: $h4;
+        }
+    }
+}
+
+.navSection-right{
+    flex: 1;
+    @include flex(row, flex-end, center);
+    .btn-addItem{
+        padding: 1rem 2rem;
+        color: $red-color;
+        background: $light-grey-color;
+        border: 2px solid $light-grey-color;
+        transition: $transition;
+        &:hover{
+            color: $white-color;
+            background-color: $red-color;
+            border: 2px solid $red-color;
+            cursor: pointer;
+        }
+    }
+}

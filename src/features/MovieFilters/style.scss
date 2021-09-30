@@ -1,0 +1,26 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+.movieSection-filters{
+    flex: 1;
+    @include flex(row, flex-end, center);
+    p{
+        padding: 1rem;
+        color: $white-color;
+        font-weight: 200;
+    }
+    select{
+        background-color: $black-color;
+        color: $white-color;
+        outline: none;
+        border: none;
+        border-radius: 0%;
+        width: 200px;
+        option{
+            padding: 1rem 2rem;
+            font-weight: 800;
+            width: 100%;
+        }
+    }
+}
