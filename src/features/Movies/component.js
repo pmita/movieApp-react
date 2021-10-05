@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { ProjectContext } from '../../store/ProjectContext';
 // import PropTypes from 'prop-types';
 // import components
@@ -16,7 +16,6 @@ const Movies = () => {
     const [
         isHidden, setIsHidden, 
         showMovie, setShowMovie,
-        // eslint-disable-next-line no-unused-vars
         movieDetails, setMovieDetails,
         movieItem, setMovieItem,
         // eslint-disable-next-line no-unused-vars
@@ -27,17 +26,16 @@ const Movies = () => {
     ] = useContext(ProjectContext);
 
     // define our event handlers
-    const showMovieDetailsHandler = (movieId) => {
-        setShowMovie(!showMovie);
+    const showMovieDetailsHandler = useCallback((movieId) => {
+        setShowMovie((prevShowMovie) => !prevShowMovie);
         const movieDetailsUpdated = moviesToShow.filter((item) => item.id === movieId);
         setMovieDetails(movieDetailsUpdated[0]);
-        // console.log(movieDetails);
-    }
+    }, [showMovie, setShowMovie, movieDetails, setMovieDetails]);
 
-    const cancelAddMovieHandler = () => {
-        setIsHidden(!isHidden);
+    const cancelAddMovieHandler = useCallback(() => {
+        setIsHidden((prevIsHidden) => !prevIsHidden);
         resetMovieHandler();
-    }
+    }, [isHidden, setIsHidden, resetMovieHandler]);
 
     const resetMovieHandler = () => {
         setMovieItem(
@@ -45,39 +43,38 @@ const Movies = () => {
         );
     }
 
-    const submitMovieHandler = (e)=> {
+    const submitMovieHandler = useCallback((e)=> {
         e.preventDefault();
         setMoviesToShow([...moviesToShow, {...movieItem, id : uuidv4()}]);
-        setIsHidden(!isHidden);
-    }
+        setIsHidden((prevIsHidden) => !prevIsHidden);
+    }, [isHidden, setIsHidden, moviesToShow, setMoviesToShow, movieItem])
 
-    const updateMovieDetailsHandler = (e) => { // not sure about this one??
+    const updateMovieDetailsHandler = useCallback((e) => { // not sure about this one??
         const formValue = movieItem;
         formValue[e.target.name] = e.target.value;
-        console.log(formValue);
         setMovieItem({...movieItem, formValue});
-    }
+    }, [movieItem, setMovieItem]);
 
-    const editMovieHandler = (movieId) => {
-        setIsHidden(!isHidden);
+    const editMovieHandler = useCallback((movieId) => {
+        setIsHidden((prevIsHidden) => !prevIsHidden);
         const movieItemUpdated = moviesToShow.filter((item) => item.id === movieId);
         setMovieItem(movieItemUpdated[0]);
-    }
+    }, [isHidden, setIsHidden, movieItem, setMovieItem]);
 
-    const removeMovie = (movieId) => {
+    const removeMovie = useCallback((movieId) => {
         const moviesItemUpdated = moviesToShow.filter((item) => item.id !== movieId);
         setMoviesToShow(moviesItemUpdated);
-    }
+    }, [moviesToShow, setMoviesToShow]);
 
-    const changeFilterHandler = (e) => {
+    const changeFilterHandler = useCallback((e) => {
         setFilter(e.target.value);
         const filterValue = e.target.value;
 		const arrayToFilter = moviesToShow;
         let moviesToShowUpdated = filterArray(filterValue, arrayToFilter);
         setMoviesToShow(moviesToShowUpdated);
-    }
+    }, [filter, setFilter, moviesToShow, setMoviesToShow]);
 
-    const changeCategoryHandler = (e) => {
+    const changeCategoryHandler = useCallback((e) => {
 		// change current category to active state
 		const categoriesUpdated = categories.map((item) => {
 			if (item.name === e.target.textContent){
@@ -96,7 +93,7 @@ const Movies = () => {
         } else{
             setMoviesToShow(movies);
         }
-    }
+    }, [categories, setCategories, moviesToShow, setMoviesToShow]);
 
 	
         return (

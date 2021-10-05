@@ -13,11 +13,11 @@ export default class App extends Component {
 	render() {
 		return (
 			<ProjectProvider>
-				<div>
+				<>
 					<Banner />
 					<Movies />
 					<Footer />
-				</div>
+				</>
 			</ProjectProvider>
 		);
 	}

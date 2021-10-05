@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {useCallback} from 'react';
 import style from './style.module.scss';
 
 const MovieDetails = ({
@@ -8,9 +8,9 @@ const MovieDetails = ({
 	movieDetails
 }) => {
     // define our event handlers
-    const closeMovieDetailsHandler = () => {
-        setShowMovie(!showMovie);
-    }
+    const closeMovieDetailsHandler = useCallback(() => {
+		setShowMovie((prevShowMovie) => !prevShowMovie);
+    }, [showMovie, setShowMovie])
     return(
 	<div className={style.movieDetails_section}>
 		<img src={movieDetails.img} alt='Details about chosen movie' />
