@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './style.scss';
 
 const SearchBar = () => {
@@ -6,12 +6,14 @@ const SearchBar = () => {
     const [searchInput, setSearchInput] = useState('');
 
     // define our events handlers
-    const searchMovieHandler = (e) => {
+    const searchMovieHandler = useCallback((e) => {
         e.preventDefault();
-    }
-    const changeSearchInputHandler = (e) => {
+    }, []);
+
+    const changeSearchInputHandler = useCallback((e) => {
         setSearchInput(e.target.value);
-    }
+    }, [setSearchInput]);
+	
     return(
 	<div className='bannerSection-searchBar'>
 		<h1 className='bannerSection-title'>FIND YOUR MOVIE</h1>

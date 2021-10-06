@@ -11,8 +11,8 @@ import style from './style.module.scss';
 
 const Banner = () => {
 	// bind our Context api state locally
-	// eslint-disable-next-line no-unused-vars
 	const [isHidden, setIsHidden, showMovie, setShowMovie, movieDetails] = useContext(ProjectContext);
+
 	return(
 		<section className={style.bannerSection}>
 			<Navbar 

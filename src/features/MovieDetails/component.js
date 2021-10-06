@@ -10,7 +10,8 @@ const MovieDetails = ({
     // define our event handlers
     const closeMovieDetailsHandler = useCallback(() => {
 		setShowMovie((prevShowMovie) => !prevShowMovie);
-    }, [showMovie, setShowMovie])
+    }, [showMovie, setShowMovie]);
+	
     return(
 	<div className={style.movieDetails_section}>
 		<img src={movieDetails.img} alt='Details about chosen movie' />

@@ -37,11 +37,11 @@ const Movies = () => {
         resetMovieHandler();
     }, [isHidden, setIsHidden, resetMovieHandler]);
 
-    const resetMovieHandler = () => {
+    const resetMovieHandler = useCallback(() => {
         setMovieItem(
             {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''}
         );
-    }
+    }, [setMovieItem]);
 
     const submitMovieHandler = useCallback((e)=> {
         e.preventDefault();
