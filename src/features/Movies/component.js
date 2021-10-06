@@ -1,142 +1,120 @@
 /* eslint-disable max-len */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useCallback } from 'react';
+import { ProjectContext } from '../../store/ProjectContext';
+// import PropTypes from 'prop-types';
 // import components
 import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
 import MovieFilters from '../MovieFilters';
 import AddMovie from '../../shared/AddMovie';
-import {filterArray} from '../../assets/functions/util';
-// import mockData 
-import { mockData } from '../../assets/data/MockData';
+import { filterArray } from '../../assets/functions/util';
 import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
 
-export default class Movies extends Component {
-    // define our state
-    constructor(props){
-        super(props);
-        this.state = {
-			movieItem : {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''},
-            movies       : mockData,
-			moviesToShow : mockData,
-			categories   : [
-                { name: 'ALL', active: true },
-                { name: 'DOCUMENTARY', active: false },
-                { name: 'COMEDY', active: false },
-                { name: 'HORROR', active: false },
-                { name: 'ACTION', active: false }
-            ],
-			filter : 'RELEASE DATE'
-        };
-		this.handleChangeCategory = this.handleChangeCategory.bind(this);
-		this.handleChangeFilter = this.handleChangeFilter.bind(this);
-		this.handleCancelAddMovie = this.handleCancelAddMovie.bind(this);
-		this.handleChangeMovieDetails = this.handleChangeMovieDetails.bind(this);
-		this.handleSubmitMovie = this.handleSubmitMovie.bind(this);
-		this.handleResetMovie = this.handleResetMovie.bind(this);
-		this.handleEditMovie = this.handleEditMovie.bind(this);
-		this.handleRemoveMovie = this.handleRemoveMovie.bind(this);
-    }
+const Movies = () => {
+    // bind our Context api state with our component
+    const [
+        isHidden, setIsHidden, 
+        showMovie, setShowMovie,
+        movieDetails, setMovieDetails,
+        movieItem, setMovieItem,
+        // eslint-disable-next-line no-unused-vars
+        movies, setMovies,
+        moviesToShow, setMoviesToShow,
+        categories, setCategories,
+        filter, setFilter
+    ] = useContext(ProjectContext);
 
-	handleCancelAddMovie(){
-		this.props.handleToggleIsHidden();
-		this.handleResetMovie();
-	}
+    // define our event handlers
+    const showMovieDetailsHandler = useCallback((movieId) => {
+        setShowMovie((prevShowMovie) => !prevShowMovie);
+        const movieDetailsUpdated = moviesToShow.filter((item) => item.id === movieId);
+        setMovieDetails(movieDetailsUpdated[0]);
+    }, [showMovie, setShowMovie, movieDetails, setMovieDetails]);
 
-	handleSubmitMovie(e){ // Add AddMovieItem form details in the moviesToShow[] 
-		e.preventDefault();
-		this.setState({ 
-			moviesToShow : [...this.state.moviesToShow, {...this.state.movieItem, id : uuidv4()}]
-		});
-		this.props.handleToggleIsHidden();
-	}
-	
-	handleResetMovie(){ // Reset AddMovieItem form
-		this.setState({ 
-			movieItem : {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''}
-		});
-	}
-	
-	handleChangeMovieDetails(e){ // Update each form field as the user types
-		let formValue = this.state.movieItem;
-		formValue[e.target.name] = e.target.value;
-		this.setState({ movieItem : formValue });
-	}
+    const cancelAddMovieHandler = useCallback(() => {
+        setIsHidden((prevIsHidden) => !prevIsHidden);
+        resetMovieHandler();
+    }, [isHidden, setIsHidden, resetMovieHandler]);
 
-	handleEditMovie(currentMovieId){
-		this.props.handleToggleIsHidden();
-		const movieItemUpdated = this.state.moviesToShow.filter((item) => item.id === currentMovieId);
-		this.setState({ movieItem : movieItemUpdated[0] });
-	}
+    const resetMovieHandler = useCallback(() => {
+        setMovieItem(
+            {name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''}
+        );
+    }, [setMovieItem]);
 
-	handleRemoveMovie(currentMovieId){
-		const moviesItemUpdated = this.state.moviesToShow.filter((item) => item.id !== currentMovieId);
-		this.setState({ moviesToShow : moviesItemUpdated });
-	}
+    const submitMovieHandler = useCallback((e)=> {
+        e.preventDefault();
+        setMoviesToShow([...moviesToShow, {...movieItem, id : uuidv4()}]);
+        setIsHidden((prevIsHidden) => !prevIsHidden);
+    }, [isHidden, setIsHidden, moviesToShow, setMoviesToShow, movieItem])
 
+    const updateMovieDetailsHandler = useCallback((e) => { // not sure about this one??
+        const formValue = movieItem;
+        formValue[e.target.name] = e.target.value;
+        setMovieItem({...movieItem, formValue});
+    }, [movieItem, setMovieItem]);
 
-	handleChangeCategory(event) {
+    const editMovieHandler = useCallback((movieId) => {
+        setIsHidden((prevIsHidden) => !prevIsHidden);
+        const movieItemUpdated = moviesToShow.filter((item) => item.id === movieId);
+        setMovieItem(movieItemUpdated[0]);
+    }, [isHidden, setIsHidden, movieItem, setMovieItem]);
+
+    const removeMovie = useCallback((movieId) => {
+        const moviesItemUpdated = moviesToShow.filter((item) => item.id !== movieId);
+        setMoviesToShow(moviesItemUpdated);
+    }, [moviesToShow, setMoviesToShow]);
+
+    const changeFilterHandler = useCallback((e) => {
+        setFilter(e.target.value);
+        const filterValue = e.target.value;
+		const arrayToFilter = moviesToShow;
+        let moviesToShowUpdated = filterArray(filterValue, arrayToFilter);
+        setMoviesToShow(moviesToShowUpdated);
+    }, [filter, setFilter, moviesToShow, setMoviesToShow]);
+
+    const changeCategoryHandler = useCallback((e) => {
 		// change current category to active state
-		const categoriesUpdated = this.state.categories.map((category) => {
-			if (category.name === event.target.textContent){
-				return { ...category, active: true};
+		const categoriesUpdated = categories.map((item) => {
+			if (item.name === e.target.textContent){
+				return { ...item, active: true};
 			} else {
-				return {...category, active: false};
+				return {...item, active: false};
 			}
 		});
+        setCategories(categoriesUpdated);
 
-		this.setState({ categories: categoriesUpdated });
-		
-		// update movies showing up according to category selected
-		this.setState((prevState) => {			
-			if (event.target.textContent === 'ALL') {
-				return { moviesToShow: prevState.movies};
-			} else {
-				const moviesUpdated = prevState.movies.filter((item) => (
-				item.category.toUpperCase().includes(event.target.textContent)
-				));	
-				return { moviesToShow: moviesUpdated};
-			}
+        if(e.target.textContent !== 'ALL'){
+            const moviesUpdated = movies.filter((item) => (
+				item.category.toUpperCase().includes(e.target.textContent)
+			));	
+            setMoviesToShow(moviesUpdated);
+        } else{
+            setMoviesToShow(movies);
+        }
+    }, [categories, setCategories, moviesToShow, setMoviesToShow]);
 
-		});
-	}
-
-	handleChangeFilter(e) {
-		this.setState({ filter: `${e.target.value}` });
-		// sort movies by eityher stars or release date
-		const filterValue = e.target.value;
-		const arrayToFilter = this.state.moviesToShow;
-		let moviesToShowUpdated = filterArray(filterValue, arrayToFilter);
-		this.setState({ moviesToShowUpdated: moviesToShowUpdated });
-	}
-
-    render() {
-		// eslint-disable-next-line no-unused-vars
-		const {movieItem, movies, moviesToShow, categories, filter} = this.state;
+	
         return (
 	<section className='moviesSection'>
-		{!this.props.isHidden 
+		{!isHidden 
 			&& <AddMovie 
-				isHidden={this.props.isHidden}
 				movieItem={movieItem}
-				// eslint-disable-next-line react/jsx-handler-names
-				handleCancelAddMovie={this.handleCancelAddMovie}
-				handleChangeMovieDetails={this.handleChangeMovieDetails}
-				handleSubmitMovie={this.handleSubmitMovie}
-				handleResetMovie={this.handleResetMovie}
+				cancelAddMovieHandler={cancelAddMovieHandler}
+				updateMovieDetailsHandler={updateMovieDetailsHandler}
+				submitMovieHandler={submitMovieHandler}
+				resetMovieHandler={resetMovieHandler}
 			   />
 		}
 		<div className='moviesSection-options'>
 			<MovieCategories 
 				categories={categories}
-				// eslint-disable-next-line react/jsx-handler-names
-				handleChangeCategory={this.handleChangeCategory}
+				changeCategoryHandler={changeCategoryHandler}
 			/>
 			<MovieFilters
 				filters={filter}
-				// eslint-disable-next-line react/jsx-handler-names
-				handleChangeFilter={this.handleChangeFilter}
+				changeFilterHandler={changeFilterHandler}
 			/>
 		</div>
 		<h2 className='moviesSection-items'>
@@ -151,25 +129,27 @@ export default class Movies extends Component {
 					category={item.category}
 					img={item.img}
 					id={item.id}
-					handleEditMovie={this.handleEditMovie}
-					handleRemoveMovie={this.handleRemoveMovie}
+					editMovieHandler={editMovieHandler}
+					removeMovie={removeMovie}
+					showMovieDetailsHandler={showMovieDetailsHandler}
 				/>
         ))}
 		</div>
 	</section>
         );
-    }
 }
 
-Movies.propTypes = {
-	isHidden : PropTypes.bool,
-	handleToggleIsHidden : PropTypes.func,
-	movieItem : PropTypes.object,
-	movies : PropTypes.arrayOf(PropTypes.object),
-	moviesToShow : PropTypes.arrayOf(PropTypes.object),
-	categories   : PropTypes.arrayOf(PropTypes.object),
-	filter : PropTypes.string
-};
+export default Movies;
+
+// Movies.propTypes = {
+// 	isHidden : PropTypes.bool,
+// 	handleToggleIsHidden : PropTypes.func,
+// 	movieItem : PropTypes.object,
+// 	movies : PropTypes.arrayOf(PropTypes.object),
+// 	moviesToShow : PropTypes.arrayOf(PropTypes.object),
+// 	categories   : PropTypes.arrayOf(PropTypes.object),
+// 	filter : PropTypes.string
+// };
 
 
 

@@ -1,22 +1,36 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import './style.scss';
 
-export default class MovieItem extends Component {
-	render() {
-		return (
-			<div className='movieItem-section'>
-				<img src={this.props.img} alt='random text' />
-				<ul className='movieItem-details'>
-					<h4>{this.props.name}</h4>
-					<h4>{this.props.date}</h4>
-				</ul>
-				<span className='movieItem-category'>{this.props.category}</span>
-				<div className='movieItem-buttons'>
-					<button className='btn btn-editItem' onClick={() => this.props.handleEditMovie(this.props.id)}>Edit</button>
-					<button className='btn btn-removeItem' onClick={() => this.props.handleRemoveMovie(this.props.id)} >Remove</button>
-				</div>
+const MovieItem = ({
+	name,
+	date,
+	category,
+	img,
+	id,
+	editMovieHandler,
+	removeMovie,
+	showMovieDetailsHandler
+}) => {
+	// prevent unneccesary duplication with useCallback hook
+	const showMovieDetailsCallback = useCallback(() => showMovieDetailsHandler(id), []);
+	const editMovieCallback = useCallback(() => editMovieHandler(id), []);
+	const removeMovieCallback = useCallback(() => removeMovie(id), []);
+	
+	return(
+		<div className='movieItem-section'>
+			<img src={img} alt='random text' onClick={showMovieDetailsCallback}/>
+			<ul className='movieItem-details'>
+				<h4>{name}</h4>
+				<h4>{date}</h4>
+			</ul>
+			<span className='movieItem-category'>{category}</span>
+			<div className='movieItem-buttons'>
+				<button className='btn btn-editItem' onClick={editMovieCallback}>Edit</button>
+				<button className='btn btn-removeItem' onClick={removeMovieCallback} >Remove</button>
 			</div>
-		)
-	}
+		</div>
+	);
 }
+
+export default MovieItem;
 

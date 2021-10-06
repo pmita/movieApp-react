@@ -14,21 +14,21 @@
     left: 0;
 }
 
-.navSection-left{
+.navSection_left{
     flex: 1;
     h4{
         color: $red-color;
-        .logo-highlight{
+        .logo_highlight{
             font-weight: 900;
             font-size: $h4;
         }
     }
 }
 
-.navSection-right{
+.navSection_right{
     flex: 1;
     @include flex(row, flex-end, center);
-    .btn-addItem{
+    .btn_addItem{
         padding: 1rem 2rem;
         color: $red-color;
         background: $light-grey-color;
