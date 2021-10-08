@@ -1,15 +1,18 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
 import { cancelAddMovie, resetMovieDetails, submitMovie, updateMovieDetails } from '../../store/actions/actionCreators';
 
 const AddMovie = ({movieItem}) => {
+	// REDUX
 	const dispatch = useDispatch();
 
-	const submitMovieHandler = (e) => dispatch(submitMovie(e));
-	const updateMovieDetailsHandler = (e) => dispatch(updateMovieDetails(e));
-	const resetMovieHandler = () => dispatch(resetMovieDetails());
-	const cancelAddMovieHandler = () => dispatch(cancelAddMovie());
+	// EVENT HANDLERS
+	const submitMovieHandler = useCallback((e) => dispatch(submitMovie(e)), [dispatch, submitMovie]);
+	const updateMovieDetailsHandler = useCallback((e) => dispatch(updateMovieDetails(e)), [dispatch, updateMovieDetails]);
+	const resetMovieHandler = useCallback(() => dispatch(resetMovieDetails()), [dispatch, resetMovieDetails]);
+	const cancelAddMovieHandler = useCallback(() => dispatch(cancelAddMovie()), [dispatch, cancelAddMovie]);
 	
 	return(
 		<div className='addMovie-section'>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React, {useCallback} from 'react';
 import style from './style.module.scss';
@@ -5,10 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { cancelShowMovieDetails } from '../../store/actions/actionCreators';
 
 const MovieDetails = () => {
+	// REDUX
 	const movie = useSelector((state) => state.movieApp.movie);
 	const dispatch = useDispatch();
 
-	const closeMovieDetailsHandler = () => dispatch(cancelShowMovieDetails());
+	// EVENT HANDLERS
+	const closeMovieDetailsHandler = useCallback(() => dispatch(cancelShowMovieDetails()), [dispatch, cancelShowMovieDetails]);
 	
     return(
 	<div className={style.movieDetails_section}>

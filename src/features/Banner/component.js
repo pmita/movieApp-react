@@ -1,17 +1,16 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import style from './style.module.scss';
+import { useSelector } from 'react-redux'; // redux state
 // import components
 import Navbar from '../../shared/Navbar';
 import SearchMovie from '../../shared/SearchMovie';
 import MovieDetails from '../MovieDetails/component';
-// import styling
-import style from './style.module.scss';
 
 const Banner = () => {
-	// bind our Context api state locally
-	// const [showMovie, setShowMovie, movieDetails] = useContext(ProjectContext);
+	// REDUX STATE
 	const showMovie = useSelector((state) => state.movieApp.showMovie);
+
 	return(
 		<section className={style.bannerSection}>
 			<Navbar />

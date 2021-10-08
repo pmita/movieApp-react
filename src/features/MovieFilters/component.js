@@ -1,12 +1,16 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
 import { changeFilters } from '../../store/actions/actionCreators';
 
 const MovieFilters = ({filter}) => {
+	// REDUX
 	const dispatch = useDispatch();
-
-	const changeFilterHandler = (e) => dispatch(changeFilters(e));
+	
+	// EVENT HANDLERS
+	const changeFilterHandler = useCallback((e) => dispatch(changeFilters(e)), [dispatch, changeFilters]);
+	
 	return(
 		<aside className='movieSection-filters'>
 			<p>SORT BY</p>

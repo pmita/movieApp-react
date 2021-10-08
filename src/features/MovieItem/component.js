@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
 import { showMovieDetails, editMovieDetails, removeMovie } from '../../store/actions/actionCreators';
@@ -10,12 +11,13 @@ const MovieItem = ({
 	img,
 	id
 }) => {
+	// REDUX
 	const dispatch = useDispatch();
 
-	const showMovieDetailsHandler = () => dispatch(showMovieDetails(id));
-	const editMovieHandler = () => dispatch(editMovieDetails(id));
-	const removeMovieHandler = () => dispatch(removeMovie(id));
-	// const showMovieBannerHandler = () => dispatch(showMovieDetails(id));
+	// EVENT HANDLERS
+	const showMovieDetailsHandler = useCallback(() => dispatch(showMovieDetails(id)), [dispatch, showMovieDetails, id]);
+	const editMovieHandler = useCallback(() => dispatch(editMovieDetails(id)), [dispatch, editMovieDetails, id]);
+	const removeMovieHandler = useCallback(() => dispatch(removeMovie(id)), [dispatch, removeMovie, id]);
 	
 	return(
 		<div className='movieItem-section'>

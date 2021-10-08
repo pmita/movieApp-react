@@ -1,12 +1,16 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
 import { changeCategory } from '../../store/actions/actionCreators';
 
 const MovieCategories = ({categories}) => {
+	// REDUX
 	const dispatch = useDispatch();
 
-	const changeCategoryHandler = (e) => dispatch(changeCategory(e));
+	// EVENT HANDLERS
+	const changeCategoryHandler = useCallback((e) => dispatch(changeCategory(e)), [dispatch, changeCategory]);
+	
 	return(
 		<aside className='movieSection-categories'>
 			<ul className='category-items'>

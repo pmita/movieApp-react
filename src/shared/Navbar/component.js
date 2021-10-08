@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import style from './style.module.scss';
 import { useDispatch } from 'react-redux';
 import { addMovie } from '../../store/actions/actionCreators';
 
 
 const Navbar = () => {
-	const dispatch = useDispatch(); // REDUX
+	// REDUX
+	const dispatch = useDispatch();
 
-	const addMovieHandler = () => dispatch(addMovie());
+	// EVENT HANDLERS
+	const addMovieHandler = useCallback(() => dispatch(addMovie()), [dispatch, addMovie]);
 
 	return(
 		<nav className={style.navSection}>

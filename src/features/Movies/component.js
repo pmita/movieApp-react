@@ -1,12 +1,11 @@
 /* eslint-disable max-len */
 import React from 'react';
-// import PropTypes from 'prop-types';
+import './style.scss';
+// import components
 import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
 import MovieFilters from '../MovieFilters';
 import AddMovie from '../../shared/AddMovie';
-import './style.scss';
-// REDUX
 import { useSelector } from 'react-redux';
 
 const Movies = () => {
@@ -19,18 +18,10 @@ const Movies = () => {
 	
         return (
 	<section className='moviesSection'>
-		{!isHidden 
-			&& <AddMovie 
-				movieItem={movie}
-			   />
-		}
+		{!isHidden && <AddMovie movieItem={movie} />}
 		<div className='moviesSection-options'>
-			<MovieCategories 
-				categories={categories}
-			/>
-			<MovieFilters
-				filters={filter}
-			/>
+			<MovieCategories categories={categories} />
+			<MovieFilters filters={filter} />
 		</div>
 		<h2 className='moviesSection-items'>
 			<span>{moviesToShow.length}</span> movies found
@@ -45,7 +36,7 @@ const Movies = () => {
 					img={item.img}
 					id={item.id}
 				/>
-        ))}
+				))}
 		</div>
 	</section>
         );
@@ -53,15 +44,6 @@ const Movies = () => {
 
 export default Movies;
 
-// Movies.propTypes = {
-// 	isHidden : PropTypes.bool,
-// 	handleToggleIsHidden : PropTypes.func,
-// 	movie : PropTypes.object,
-// 	movies : PropTypes.arrayOf(PropTypes.object),
-// 	moviesToShow : PropTypes.arrayOf(PropTypes.object),
-// 	categories   : PropTypes.arrayOf(PropTypes.object),
-// 	filter : PropTypes.string
-// };
 
 
 

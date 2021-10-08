@@ -3,7 +3,7 @@ import {
     CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
     UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY  } from "./actionTypes";
 
-// movie based actions
+// MOVIE RELATED ACTIONS
 export const addMovie = () => {
     return {
         type: ADD_MOVIE_BUTTON
@@ -54,8 +54,9 @@ export const removeMovie = (movieId) => {
         payload : movieId
     };
 };
+// END OF MOVIE BASED ACTIONS
 
-// filtering actions
+// FILTERING ACTIONS
 export const changeFilters = (event) => {
     return {
         type : CHANGE_FILTER,
@@ -68,4 +69,5 @@ export const changeCategory = (event) => {
         payload: event.target.textContent
     };
 };
+// END OF FILTERING ACTIONS
 
