@@ -1,7 +1,12 @@
 import React from 'react';
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { changeCategory } from '../../store/actions/actionCreators';
 
-const MovieCategories = ({categories, changeCategoryHandler}) => {
+const MovieCategories = ({categories}) => {
+	const dispatch = useDispatch();
+
+	const changeCategoryHandler = (e) => dispatch(changeCategory(e));
 	return(
 		<aside className='movieSection-categories'>
 			<ul className='category-items'>

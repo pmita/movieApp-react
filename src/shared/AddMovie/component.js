@@ -1,13 +1,16 @@
 import React from 'react';
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { cancelAddMovie, resetMovieDetails, submitMovie, updateMovieDetails } from '../../store/actions/actionCreators';
 
-const AddMovie = ({
-	movieItem, 
-	cancelAddMovieHandler, 
-	updateMovieDetailsHandler, 
-	submitMovieHandler, 
-	resetMovieHandler
-}) => {
+const AddMovie = ({movieItem}) => {
+	const dispatch = useDispatch();
+
+	const submitMovieHandler = (e) => dispatch(submitMovie(e));
+	const updateMovieDetailsHandler = (e) => dispatch(updateMovieDetails(e));
+	const resetMovieHandler = () => dispatch(resetMovieDetails());
+	const cancelAddMovieHandler = () => dispatch(cancelAddMovie());
+	
 	return(
 		<div className='addMovie-section'>
 			<div className='addMovie-details'>
