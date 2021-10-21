@@ -1,9 +1,19 @@
 import { 
-    ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
+    LOAD_MOVIES, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
     CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
     UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY  } from "./actionTypes";
+    // import axios from 'axios';
 
-// MOVIE RELATED ACTIONS
+// MOVIE RELATED ACTIONS.
+export const loadMovies = () => async (dispatch) => {
+    // FETCH DATA
+    const apiData = await fetch('https://localhost:4000/movies?limit=10');
+    const moviesData = await apiData.json()
+    dispatch({
+        type : LOAD_MOVIES,
+        payload : moviesData
+    });
+};
 export const addMovie = () => {
     return {
         type: ADD_MOVIE_BUTTON

@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable max-len */
 import {
-    ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
+    LOAD_MOVIES, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
     CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, UPDATE_MOVIE_DETAILS, EDIT_MOVIE,
     REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY } from "../actions/actionTypes";
  import { v4 as uuidv4 } from 'uuid';
@@ -24,13 +24,16 @@ const initialState = {
         { name: 'HORROR', active: false },
         { name: 'ACTION', active: false }
     ],
-    filter : 'RELEASE DATE'
+    filter : 'RELEASE DATE',
+    test : null
 }
 
 const moviesReducer = (state=initialState, action) => {
     const {isHidden, showMovie, movies, moviesToShow, movie, categories} = state;
 
     switch(action.type){
+        case LOAD_MOVIES:
+            return {...state, test : action.payload};
         case ADD_MOVIE_BUTTON: 
             return {...state, isHidden : !isHidden};
             case CANCEL_ADD_MOVIE:
