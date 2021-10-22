@@ -6,16 +6,15 @@ import {
     REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY } from "../actions/actionTypes";
  import { v4 as uuidv4 } from 'uuid';
  // ASSETS
-import { mockData } from "../../assets/data/MockData";
 import { filterArray } from "../../assets/functions/util";
 
 const initialState = {
     isHidden : true,
     showMovie : false,
-    movies : mockData,
-    moviesToShow : mockData,
+    movies : [],
+    moviesToShow : [],
     movie : {
-        name : '', date : '', category : '', rating : '', img : '', overview : '', id : ''
+        title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''
     },
     categories : [
         { name: 'ALL', active: true },
@@ -25,7 +24,6 @@ const initialState = {
         { name: 'ACTION', active: false }
     ],
     filter : 'RELEASE DATE',
-    test : null
 }
 
 const moviesReducer = (state=initialState, action) => {
@@ -33,7 +31,7 @@ const moviesReducer = (state=initialState, action) => {
 
     switch(action.type){
         case LOAD_MOVIES:
-            return {...state, test : action.payload};
+            return {...state, movies : action.payload, moviesToShow : action.payload};
         case ADD_MOVIE_BUTTON: 
             return {...state, isHidden : !isHidden};
             case CANCEL_ADD_MOVIE:

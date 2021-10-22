@@ -7,11 +7,11 @@ import {
 // MOVIE RELATED ACTIONS.
 export const loadMovies = () => async (dispatch) => {
     // FETCH DATA
-    const apiData = await fetch('https://localhost:4000/movies?limit=10');
+    const apiData = await fetch('http://localhost:4000/movies?limit=10');
     const moviesData = await apiData.json()
     dispatch({
         type : LOAD_MOVIES,
-        payload : moviesData
+        payload : moviesData.data
     });
 };
 export const addMovie = () => {

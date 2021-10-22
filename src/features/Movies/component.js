@@ -34,13 +34,10 @@ const Movies = () => {
 			<span>{moviesToShow.length}</span> movies found
 		</h2>
 		<div className='itemsSection'>
-			{moviesToShow.map((item) => (
+			{moviesToShow && moviesToShow.map((item) => (
 				<MovieItem
 					key={item.id}
-					name={item.name}
-					date={item.date}
-					category={item.category}
-					img={item.img}
+					movie={item}
 					id={item.id}
 				/>
 				))}

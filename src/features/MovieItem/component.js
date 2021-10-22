@@ -4,13 +4,7 @@ import './style.scss';
 import { useDispatch } from 'react-redux';
 import { showMovieDetails, editMovieDetails, removeMovie } from '../../store/actions/actionCreators';
 
-const MovieItem = ({
-	name,
-	date,
-	category,
-	img,
-	id
-}) => {
+const MovieItem = ({ movie, id }) => {
 	// REDUX
 	const dispatch = useDispatch();
 
@@ -21,12 +15,17 @@ const MovieItem = ({
 	
 	return(
 		<div className='movieItem-section'>
-			<img src={img} alt='random text' onClick={showMovieDetailsHandler}/>
+			<img src={movie.poster_path} alt='random text' onClick={showMovieDetailsHandler}/>
 			<ul className='movieItem-details'>
-				<h4>{name}</h4>
-				<h4>{date}</h4>
+				<h4>{movie.title}</h4>
+				<h4>{movie.release_date}</h4>
 			</ul>
-			<span className='movieItem-category'>{category}</span>
+			
+			{movie.genres.map((item, index) => {
+				return(
+					<span key={index} className='movieItem-category'>{item} </span>
+				);
+			})}
 			<div className='movieItem-buttons'>
 				<button className='btn btn-editItem' onClick={editMovieHandler}>Edit</button>
 				<button className='btn btn-removeItem' onClick={removeMovieHandler} >Remove</button>
