@@ -24,9 +24,9 @@ const MovieFilters = ({filter}) => {
 					RELEASE DATE
 				</option>
 				<option
-					value='STARS'
+					value='RATE'
 				>
-					STARS
+					RATE
 				</option>
 			</select>
 		</aside>
