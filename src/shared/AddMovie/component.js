@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { cancelAddMovie, resetMovieDetails, submitMovie, updateMovieDetails } from '../../store/actions/actionCreators';
 
 const AddMovie = ({movieItem}) => {
-	// REDUX
+	// REDUX AND STATE
 	const dispatch = useDispatch();
 
 	// EVENT HANDLERS
@@ -21,19 +21,29 @@ const AddMovie = ({movieItem}) => {
 				<form onSubmit={submitMovieHandler}>
 					<label>
 						TITLE
-						<input type='text' name='name' value={movieItem.name} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='name' value={movieItem.title} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						RELEASE DATE
-						<input type='text' name='date' value={movieItem.date} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='date' value={movieItem.release_date} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						MOVIE URL
-						<input type='text' name='img' value={movieItem.img} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='img' value={movieItem.poster_path} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						GENRE
-						<input type='text' name='category' value={movieItem.category} onChange={updateMovieDetailsHandler} required/>
+					
+						<select 
+							value={movieItem.genres}
+							onChange={updateMovieDetailsHandler}
+						>
+							{movieItem.genres.map((item, index) => {
+								return(
+									<option key={index} value={'${item}'}>{item}</option>
+								);
+							})}
+						</select>
 					</label>
 					<label>
 						OVERVIEW
@@ -41,7 +51,7 @@ const AddMovie = ({movieItem}) => {
 					</label>
 					<label>
 						RATING
-						<input type='text' name='rating' value={movieItem.rating} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='rating' value={movieItem.vote_average} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<div className='addMovie-buttons'>
 						<button className='btn btn-cancelItem' onClick={cancelAddMovieHandler}>CANCEL</button>

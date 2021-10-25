@@ -3,7 +3,7 @@
 import {
     LOAD_MOVIES, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
     CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, UPDATE_MOVIE_DETAILS, EDIT_MOVIE,
-    REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY } from "../actions/actionTypes";
+    REMOVE_MOVIE, CHANGE_FILTER, LOAD_CATEGORES, CHANGE_CATEGORY } from "../actions/actionTypes";
  import { v4 as uuidv4 } from 'uuid';
  // ASSETS
 import { filterArray } from "../../assets/functions/util";
@@ -16,18 +16,12 @@ const initialState = {
     movie : {
         title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''
     },
-    categories : [
-        { name: 'ALL', active: true },
-        { name: 'DOCUMENTARY', active: false },
-        { name: 'COMEDY', active: false },
-        { name: 'HORROR', active: false },
-        { name: 'ACTION', active: false }
-    ],
+    genres : [],
     filter : 'RELEASE DATE',
 }
 
 const moviesReducer = (state=initialState, action) => {
-    const {isHidden, showMovie, movies, moviesToShow, movie, categories} = state;
+    const {isHidden, showMovie, movies, moviesToShow, movie, genres} = state;
 
     switch(action.type){
         case LOAD_MOVIES:
@@ -64,22 +58,24 @@ const moviesReducer = (state=initialState, action) => {
             const arrToFilter = state.moviesToShow;
             const moviesToShowAfterFilter = filterArray(filterValue, arrToFilter);
             return {...state, filter : filterValue, moviesToShow: moviesToShowAfterFilter};
+        case LOAD_CATEGORES:
+            return {...state, genres : action.payload}
         case CHANGE_CATEGORY:
-            const categoriesUpdated = categories.map((item) => {
-                if(item.name === action.payload){
+            const genresUpdated = genres.map((item) => {
+                if(item.name.toUpperCase() === action.payload.toUpperCase()){
                     return {...item, active : true};
                 } else {
                     return {...item, active : false};
                 }
             });
 
-            if(action.payload !== 'ALL'){
+            if(action.payload !== 'All'){
                 const moviesToShowUpdated = movies.slice().filter((item) => (
-                    item.category.toUpperCase().includes(action.payload)
+                    item.genres.some((genreItem) => genreItem.includes(action.payload))
                 ));
-                return {...state, moviesToShow: moviesToShowUpdated ,categories : categoriesUpdated};
+                return {...state, moviesToShow: moviesToShowUpdated , genres : genresUpdated};
             } else {
-                return {...state, moviesToShow: state.movies,categories : categoriesUpdated};
+                return {...state, moviesToShow: movies, genres : genresUpdated};
             }
         default:
             return state;

@@ -27,7 +27,7 @@ const Movies = () => {
 	<section className='moviesSection'>
 		{!isHidden && <AddMovie movieItem={movie} />}
 		<div className='moviesSection-options'>
-			<MovieCategories categories={categories} />
+			<MovieCategories />
 			<MovieFilters filters={filter} />
 		</div>
 		<h2 className='moviesSection-items'>

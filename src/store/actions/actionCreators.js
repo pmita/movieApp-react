@@ -1,7 +1,7 @@
 import { 
     LOAD_MOVIES, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
     CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
-    UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER,CHANGE_CATEGORY  } from "./actionTypes";
+    UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER, LOAD_CATEGORES, CHANGE_CATEGORY  } from "./actionTypes";
     // import axios from 'axios';
 
 // MOVIE RELATED ACTIONS.
@@ -73,6 +73,12 @@ export const changeFilters = (event) => {
         payload : event
     };
 };
+export const loadCategories = (categories) => {
+    return {
+        type : LOAD_CATEGORES,
+        payload : categories
+    }
+}
 export const changeCategory = (event) => {
     return {
         type: CHANGE_CATEGORY,
