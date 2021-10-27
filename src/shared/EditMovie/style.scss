@@ -1,0 +1,80 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/global';
+@import '../../assets/styles/mixins';
+
+
+.addMovie-section{
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(230, 164, 164, 0.35);
+    backdrop-filter: blur(50px);
+    @include flex(row, center, center);
+    &.hidden{
+        display: none
+    }
+}
+
+.addMovie-details{
+    height: 100%;
+    width: 60%;
+    background: $black-color;
+    color: $white-color;
+    padding: 2rem;
+    @include flex(column, flex-start, flex-start);
+    form{
+        width: 100%;
+        height: 100%;
+        @include flex(column, space-evenly, flex-start);
+        label{
+            width:100%;
+            @include flex(column, flex-start, flex-start);
+            margin: 1rem 0;
+            color: $red-color;
+            font-size: $h4;
+            input, select{
+                width:100%;
+                background: $light-grey-color;
+                color: $white-color;
+                outline: none;
+                border: none;
+                padding: 1rem;
+            }
+        }
+    }
+}
+
+.addMovie-buttons{
+    align-self: flex-end;
+    .btn{
+        padding: 1rem 2rem;
+        margin: 0 0 0 1rem;
+    }
+}
+
+.btn-cancelItem,.btn-resetItem{
+    background: $black-color;
+    color: $red-color;
+    border: 2px solid $red-color;
+    transition: $transition;
+    cursor: pointer;
+    &:hover{
+        color: $white-color;
+        background: $red-color;
+    }
+}
+
+.btn-addItem{
+    background: $red-color;
+    color: $white-color;
+    border: 2px solid $red-color;
+    transition: $transition;
+    cursor: pointer;
+    &:hover{
+        color: $red-color;
+        background: $white-color;
+    }
+}

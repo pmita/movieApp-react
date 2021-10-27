@@ -4,7 +4,7 @@ import './style.scss';
 import { useDispatch } from 'react-redux';
 import { cancelAddMovie, resetMovieDetails, submitMovie, updateMovieDetails } from '../../store/actions/actionCreators';
 
-const AddMovie = ({movieItem}) => {
+const EditMovie = ({movieItem}) => {
 	// REDUX AND STATE
 	const dispatch = useDispatch();
 
@@ -13,9 +13,6 @@ const AddMovie = ({movieItem}) => {
 	const updateMovieDetailsHandler = useCallback((e) => dispatch(updateMovieDetails(e)), [dispatch, updateMovieDetails]);
 	const resetMovieHandler = useCallback(() => dispatch(resetMovieDetails()), [dispatch, resetMovieDetails]);
 	const cancelAddMovieHandler = useCallback(() => dispatch(cancelAddMovie()), [dispatch, cancelAddMovie]);
-
-	// VARIABLES
-	 const setGenres = ['Drama', 'Adventure', 'Crime', 'Comedy', 'Thriller'];
 	
 	return(
 		<div className='addMovie-section'>
@@ -41,7 +38,7 @@ const AddMovie = ({movieItem}) => {
 							value={movieItem.genres}
 							onChange={updateMovieDetailsHandler}
 						>
-							{setGenres.map((item, index) => {
+							{movieItem.genres.map((item, index) => {
 								return(
 									<option key={index} value={'${item}'}>{item}</option>
 								);
@@ -67,4 +64,4 @@ const AddMovie = ({movieItem}) => {
 	);
 }
 
-export default AddMovie;
+export default EditMovie;

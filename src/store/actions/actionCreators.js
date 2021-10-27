@@ -1,8 +1,7 @@
 import { 
-    LOAD_MOVIES, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, CANCEL_SHOW_MOVIE_DETAILS, 
-    CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
+    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, 
+    CANCEL_SHOW_MOVIE_DETAILS, CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
     UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER, LOAD_CATEGORES, CHANGE_CATEGORY  } from "./actionTypes";
-    // import axios from 'axios';
 
 // MOVIE RELATED ACTIONS.
 export const loadMovies = () => async (dispatch) => {
@@ -11,6 +10,16 @@ export const loadMovies = () => async (dispatch) => {
     const moviesData = await apiData.json()
     dispatch({
         type : LOAD_MOVIES,
+        payload : moviesData.data
+    });
+};
+
+export const loadMoviesByGenre = (genre) => async (dispatch) => {
+    // FETCH
+    const apiData = await fetch(`http://localhost:4000/movies?sortOrder=desc&filter=${genre}&limit=10`);
+    const moviesData = await apiData.json();
+    dispatch({
+        type : LOAD_MOVIES_BY_GENRE,
         payload : moviesData.data
     });
 };

@@ -1,43 +1,48 @@
-/* eslint-disable max-len */
-import React, { useCallback, useEffect } from 'react';
+import React, {useState } from 'react';
 import './style.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import { loadCategories,changeCategory } from '../../store/actions/actionCreators';
+import { useDispatch } from 'react-redux';
+import { loadMoviesByGenre, loadMovies } from '../../store/actions/actionCreators';
 
 const MovieCategories = () => {
-	// REDUX
-	const movies = useSelector((state) => state.movieApp.movies);
-	const genres = useSelector((state) => state.movieApp.genres);
+	// REDUX & STATE
 	const dispatch = useDispatch();
+	const [categories, setCategories] = useState([
+		{name: 'All', active : true},
+		{name: 'Drama', active : false},
+		{name: 'Romance', active : false},
+		{name: 'Animation', active : false},
+		{name: 'Adventure', active : false},
+		{name: 'Family', active : false},
+		{name: 'Comedy', active : false}
+	])
 
 	// EVENT HANDLERS
-	const changeCategoryHandler = useCallback((e) => dispatch(changeCategory(e)), [dispatch, changeCategory]);
-
-	// useEFFECT
-	useEffect(() => {
-		const genres = reduceGenres(movies);
-		dispatch(loadCategories(genres));
-	}, [movies]);
-
-	// FUNCTIONS
-	const reduceGenres = (movies) => {
-		const allGenres = movies.map((movie) => movie.genres);
-		const allGenresFlattened = [].concat(...allGenres);
-		const genres = ['All', ...new Set(allGenresFlattened)];
-		const reduxGenres = genres.map((genre) => {
-			return ({ name : genre, active : false});
-		})
-		return reduxGenres;
+	const changeCategoryCallback = (e) => {
+		const categoryValue = e.target.textContent
+		const categoriesUpdated = categories.map((item) => {
+			if(item.name.toUpperCase() === categoryValue.toUpperCase()){
+				return {...item, active : true};
+			} else {
+				return {...item, active : false};
+			}
+		});
+		// update the categories array
+		setCategories(categoriesUpdated);
+		
+		if(e.target.textContent !== 'All'){
+			dispatch(loadMoviesByGenre(categoryValue));
+		} else {
+			dispatch(loadMovies());
+		}
 	}
-	
 	return(
 		<aside className='movieSection-categories'>
 			<ul className='category-items'>
-				{genres && genres.map((item, index) => (
+				{categories.map((item) => (
 					<h4 
-						key={index} 
+						key={item.name} 
 						className={item.active ? 'category-item active' : 'category-item'}
-						onClick={changeCategoryHandler}
+						onClick={changeCategoryCallback}
 					>
 						{item.name}
 					</h4>

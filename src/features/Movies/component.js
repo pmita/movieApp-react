@@ -6,7 +6,8 @@ import './style.scss';
 import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
 import MovieFilters from '../MovieFilters';
-import AddMovie from '../../shared/AddMovie';
+// import AddMovie from '../../shared/AddMovie';
+import EditMovie from '../../shared/EditMovie';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadMovies } from '../../store/actions/actionCreators';
 
@@ -25,7 +26,7 @@ const Movies = () => {
 	
         return (
 	<section className='moviesSection'>
-		{!isHidden && <AddMovie movieItem={movie} />}
+		{!isHidden && <EditMovie movieItem={movie} />}
 		<div className='moviesSection-options'>
 			<MovieCategories />
 			<MovieFilters filters={filter} />
