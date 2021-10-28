@@ -1,7 +1,7 @@
 import { 
-    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, 
-    CANCEL_SHOW_MOVIE_DETAILS, CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
-    UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER } from "./actionTypes";
+    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, SHOW_MOVIE_DETAILS, 
+    CANCEL_SHOW_MOVIE_DETAILS, SUBMIT_MOVIE, REMOVE_MOVIE, 
+    CHANGE_FILTER } from "./actionTypes";
 
 // MOVIE RELATED ACTIONS.
 export const loadMovies = () => async (dispatch) => {
@@ -23,11 +23,12 @@ export const loadMoviesByGenre = (genre) => async (dispatch) => {
         payload : moviesData.data
     });
 };
-export const addMovie = () => {
+export const submitMovie = (movieItem) => {
     return {
-        type: ADD_MOVIE_BUTTON
-    }
-}
+        type : SUBMIT_MOVIE,
+        payload : movieItem
+    };
+};
 export const showMovieDetails = (movieId) => {
     return {
         type : SHOW_MOVIE_DETAILS,
@@ -37,34 +38,6 @@ export const showMovieDetails = (movieId) => {
 export const cancelShowMovieDetails = () => {
     return {
         type : CANCEL_SHOW_MOVIE_DETAILS
-    };
-};
-export const cancelAddMovie = () => {
-    return {
-        type : CANCEL_ADD_MOVIE
-    };
-};
-export const resetMovieDetails = () => {
-    return {
-        type : RESET_MOVIE_DETAILS
-    };
-};
-export const submitMovie = (movieItem) => {
-    return {
-        type : SUBMIT_MOVIE,
-        payload : movieItem
-    };
-};
-export const updateMovieDetails = (event) => {
-    return { 
-        type : UPDATE_MOVIE_DETAILS,
-        payload : event
-    };
-};
-export const editMovieDetails = (movieId) => {
-    return {
-        type : EDIT_MOVIE,
-        payload : movieId
     };
 };
 export const removeMovie = (movieId) => {

@@ -6,12 +6,7 @@ import './style.scss';
 import { useDispatch } from 'react-redux';
 import { submitMovie } from '../../store/actions/actionCreators';
 
-const EditMovie = ({
-	movie,
-	id,
-	isHidden,
-	setIsHidden
-}) => {
+const EditMovie = ({movie, id, isHidden, setIsHidden}) => {
 	// REDUX AND STATE
 	const [movieDetails, setMovieDetails] = useState({title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''});
 	const dispatch = useDispatch();
@@ -28,14 +23,11 @@ const EditMovie = ({
 		formValue[e.target.name] = e.target.value;
 		setMovieDetails({...movieDetails, formValue});
 	}, [movieDetails, setMovieDetails]);
-
 	const resetMovieDetailsHandler = useCallback(() => setMovieDetails({ ...movieDetails, title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''}), [movieDetails, setMovieDetails]);
-	
 	const cancelEditMovieHandler = useCallback(() => {
 		setIsHidden(!isHidden);
 		resetMovieDetailsHandler();
 	}, [isHidden, setIsHidden, resetMovieDetailsHandler]);
-
 	const submitMovieHandler = useCallback((event) => {
 		event.preventDefault();
 		dispatch(submitMovie(movieDetails));
