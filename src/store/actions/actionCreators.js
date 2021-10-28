@@ -1,7 +1,7 @@
 import { 
     LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, ADD_MOVIE_BUTTON, SHOW_MOVIE_DETAILS, 
     CANCEL_SHOW_MOVIE_DETAILS, CANCEL_ADD_MOVIE,RESET_MOVIE_DETAILS, SUBMIT_MOVIE, 
-    UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER, LOAD_CATEGORES, CHANGE_CATEGORY  } from "./actionTypes";
+    UPDATE_MOVIE_DETAILS, EDIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER } from "./actionTypes";
 
 // MOVIE RELATED ACTIONS.
 export const loadMovies = () => async (dispatch) => {
@@ -49,10 +49,10 @@ export const resetMovieDetails = () => {
         type : RESET_MOVIE_DETAILS
     };
 };
-export const submitMovie = (event) => {
+export const submitMovie = (movieItem) => {
     return {
         type : SUBMIT_MOVIE,
-        payload : event
+        payload : movieItem
     };
 };
 export const updateMovieDetails = (event) => {
@@ -80,18 +80,6 @@ export const changeFilters = (event) => {
     return {
         type : CHANGE_FILTER,
         payload : event
-    };
-};
-export const loadCategories = (categories) => {
-    return {
-        type : LOAD_CATEGORES,
-        payload : categories
-    }
-}
-export const changeCategory = (event) => {
-    return {
-        type: CHANGE_CATEGORY,
-        payload: event.target.textContent
     };
 };
 // END OF FILTERING ACTIONS

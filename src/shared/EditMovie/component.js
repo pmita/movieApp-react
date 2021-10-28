@@ -1,61 +1,86 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
-import React, { useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './style.scss';
+// REDUX
 import { useDispatch } from 'react-redux';
-import { cancelAddMovie, resetMovieDetails, submitMovie, updateMovieDetails } from '../../store/actions/actionCreators';
+import { submitMovie } from '../../store/actions/actionCreators';
 
-const EditMovie = ({movieItem}) => {
+const EditMovie = ({
+	movie,
+	id,
+	isHidden,
+	setIsHidden
+}) => {
 	// REDUX AND STATE
+	const [movieDetails, setMovieDetails] = useState({title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''});
 	const dispatch = useDispatch();
 
-	// EVENT HANDLERS
-	const submitMovieHandler = useCallback((e) => dispatch(submitMovie(e)), [dispatch, submitMovie]);
-	const updateMovieDetailsHandler = useCallback((e) => dispatch(updateMovieDetails(e)), [dispatch, updateMovieDetails]);
-	const resetMovieHandler = useCallback(() => dispatch(resetMovieDetails()), [dispatch, resetMovieDetails]);
-	const cancelAddMovieHandler = useCallback(() => dispatch(cancelAddMovie()), [dispatch, cancelAddMovie]);
+	// useEFFECT
+	useEffect(() => {
+		setMovieDetails({title : movie.title, release_date : movie.release_date, genres : movie.genres, vote_average : movie.vote_average, poster_path : movie.poster_path, overview : movie.overview, id : movie.id,});
+	}, [])
+
+	// EFFECT HANDLERS
+	const updateMovieDetailsHandler = useCallback((e) => {
+		console.log(id);
+		const formValue = movieDetails;
+		formValue[e.target.name] = e.target.value;
+		setMovieDetails({...movieDetails, formValue});
+	}, [movieDetails, setMovieDetails]);
+
+	const resetMovieDetailsHandler = useCallback(() => setMovieDetails({ ...movieDetails, title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''}), [movieDetails, setMovieDetails]);
+	
+	const cancelEditMovieHandler = useCallback(() => {
+		setIsHidden(!isHidden);
+		resetMovieDetailsHandler();
+	}, [isHidden, setIsHidden, resetMovieDetailsHandler]);
+
+	const submitMovieHandler = useCallback((event) => {
+		event.preventDefault();
+		dispatch(submitMovie(movieDetails));
+		setIsHidden(!isHidden);
+	}, [dispatch, movieDetails, isHidden, setIsHidden]);
+
 	
 	return(
 		<div className='addMovie-section'>
 			<div className='addMovie-details'>
-				<h2>ADD MOVIE</h2>
+				<h2>EDIT MOVIE</h2>
 				<form onSubmit={submitMovieHandler}>
 					<label>
 						TITLE
-						<input type='text' name='name' value={movieItem.title} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='title' value={movieDetails.title} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						RELEASE DATE
-						<input type='text' name='date' value={movieItem.release_date} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='release_date' value={movieDetails.release_date} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						MOVIE URL
-						<input type='text' name='img' value={movieItem.poster_path} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='poster_path' value={movieDetails.poster_path} onChange={updateMovieDetailsHandler} required/>
 					</label>
-					<label>
-						GENRE
-					
-						<select 
-							value={movieItem.genres}
-							onChange={updateMovieDetailsHandler}
-						>
-							{movieItem.genres.map((item, index) => {
-								return(
-									<option key={index} value={'${item}'}>{item}</option>
-								);
-							})}
-						</select>
-					</label>
+					{movieDetails.genres
+						?<label>
+							GENRE
+							<input type='text' name='genres' value={movieDetails.genres[0]} onChange={updateMovieDetailsHandler} required/>
+						</label>
+						:<label>
+							GENRE
+							<input type='text' name='genres' value={movieDetails.genres} onChange={updateMovieDetailsHandler} required/>
+						</label>
+					}
 					<label>
 						OVERVIEW
-						<input type='text' name='overview' value={movieItem.overview} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='overview' value={movieDetails.overview} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						RATING
-						<input type='text' name='rating' value={movieItem.vote_average} onChange={updateMovieDetailsHandler} required/>
+						<input type='text' name='vote_average' value={movieDetails.vote_average} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<div className='addMovie-buttons'>
-						<button className='btn btn-cancelItem' onClick={cancelAddMovieHandler}>CANCEL</button>
-						<button className='btn btn-resetItem'onClick={resetMovieHandler}>RESET</button>
+						<button className='btn btn-cancelItem' onClick={cancelEditMovieHandler}>CANCEL</button>
+						<button className='btn btn-resetItem'onClick={resetMovieDetailsHandler}>RESET</button>
 						<button type='submit' className='btn btn-addItem'>SUBMIT</button>
 					</div>
 				</form>
