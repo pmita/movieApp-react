@@ -2,17 +2,12 @@
 /* eslint-disable no-unused-vars */
 import React, {useCallback} from 'react';
 import style from './style.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import { cancelShowMovieDetails } from '../../store/actions/actionCreators';
 
-const MovieDetails = () => {
-	// REDUX
-	const movie = useSelector((state) => state.movieApp.movie);
-	const dispatch = useDispatch();
+const MovieDetails = ({movie, toggleMovieDetails, setToggleMovieDetails}) => {
 
 	// EVENT HANDLERS
-	const closeMovieDetailsHandler = useCallback(() => dispatch(cancelShowMovieDetails()), [dispatch, cancelShowMovieDetails]);
-	
+	const closeMovieDetails = useCallback(() => setToggleMovieDetails(!toggleMovieDetails), [toggleMovieDetails, setToggleMovieDetails]);
+
     return(
 	<div className={style.movieDetails_section}>
 		<img src={movie.poster_path} alt='Details about chosen movie' />
@@ -30,7 +25,7 @@ const MovieDetails = () => {
 			<p>{movie.overview}</p>
 			<button 
 				className={style.btn}
-				onClick={closeMovieDetailsHandler}
+				onClick={closeMovieDetails}
 			>  
 				Close
 			</button>

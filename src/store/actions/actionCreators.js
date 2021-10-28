@@ -1,7 +1,6 @@
 import { 
-    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, SHOW_MOVIE_DETAILS, 
-    CANCEL_SHOW_MOVIE_DETAILS, SUBMIT_MOVIE, REMOVE_MOVIE, 
-    CHANGE_FILTER } from "./actionTypes";
+    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, SUBMIT_MOVIE, 
+    REMOVE_MOVIE, CHANGE_FILTER } from "./actionTypes";
 
 // MOVIE RELATED ACTIONS.
 export const loadMovies = () => async (dispatch) => {
@@ -27,17 +26,6 @@ export const submitMovie = (movieItem) => {
     return {
         type : SUBMIT_MOVIE,
         payload : movieItem
-    };
-};
-export const showMovieDetails = (movieId) => {
-    return {
-        type : SHOW_MOVIE_DETAILS,
-        payload : movieId
-    };
-};
-export const cancelShowMovieDetails = () => {
-    return {
-        type : CANCEL_SHOW_MOVIE_DETAILS
     };
 };
 export const removeMovie = (movieId) => {
