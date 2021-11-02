@@ -1,27 +1,6 @@
-import { 
-    LOAD_MOVIES, LOAD_MOVIES_BY_GENRE, SUBMIT_MOVIE, 
-    REMOVE_MOVIE, CHANGE_FILTER } from "./actionTypes";
+import { SUBMIT_MOVIE, REMOVE_MOVIE, CHANGE_FILTER } from "./actionTypes";
 
-// MOVIE RELATED ACTIONS.
-export const loadMovies = () => async (dispatch) => {
-    // FETCH DATA
-    const apiData = await fetch('http://localhost:4000/movies?limit=10');
-    const moviesData = await apiData.json()
-    dispatch({
-        type : LOAD_MOVIES,
-        payload : moviesData.data
-    });
-};
-
-export const loadMoviesByGenre = (genre) => async (dispatch) => {
-    // FETCH
-    const apiData = await fetch(`http://localhost:4000/movies?sortOrder=desc&filter=${genre}&limit=10`);
-    const moviesData = await apiData.json();
-    dispatch({
-        type : LOAD_MOVIES_BY_GENRE,
-        payload : moviesData.data
-    });
-};
+// MOVIE RELATED ACTIONS
 export const submitMovie = (movieItem) => {
     return {
         type : SUBMIT_MOVIE,
@@ -37,10 +16,10 @@ export const removeMovie = (movieId) => {
 // END OF MOVIE BASED ACTIONS
 
 // FILTERING ACTIONS
-export const changeFilters = (event) => {
+export const changeFilters = (filter) => {
     return {
         type : CHANGE_FILTER,
-        payload : event
+        payload : filter
     };
 };
 // END OF FILTERING ACTIONS

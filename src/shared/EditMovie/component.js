@@ -46,7 +46,7 @@ const EditMovie = ({movie, id, isHidden, setIsHidden}) => {
 					</label>
 					<label>
 						RELEASE DATE
-						<input type='text' name='release_date' value={movieDetails.release_date} onChange={updateMovieDetailsHandler} required/>
+						<input type='date' name='release_date' value={movieDetails.release_date} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						MOVIE URL
@@ -64,11 +64,11 @@ const EditMovie = ({movie, id, isHidden, setIsHidden}) => {
 					}
 					<label>
 						OVERVIEW
-						<input type='text' name='overview' value={movieDetails.overview} onChange={updateMovieDetailsHandler} required/>
+						<input type='textarea' name='overview' value={movieDetails.overview} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<label>
 						RATING
-						<input type='text' name='vote_average' value={movieDetails.vote_average} onChange={updateMovieDetailsHandler} required/>
+						<input type='number' name='vote_average' value={movieDetails.vote_average} onChange={updateMovieDetailsHandler} required/>
 					</label>
 					<div className='addMovie-buttons'>
 						<button className='btn btn-cancelItem' onClick={cancelEditMovieHandler}>CANCEL</button>

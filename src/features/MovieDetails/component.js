@@ -13,11 +13,7 @@ const MovieDetails = ({movie, toggleMovieDetails, setToggleMovieDetails}) => {
 		<img src={movie.poster_path} alt='Details about chosen movie' />
 		<div className={style.movieDetails_content}>
 			<h2>{movie.title}</h2>
-			{movie.genres.map((item, index) => {
-				return(
-					<p key={index}>{item} </p>
-				);
-			})}
+			{movie.genres.map((item, index) => <p key={index}>{item} </p>)}
 			<ul className={style.movieDetails_info}>
 				<h4>{movie.release_date}</h4>
 				<h4>{movie.vote_average}</h4>

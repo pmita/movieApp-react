@@ -28,11 +28,8 @@ const MovieItem = ({ movie, id }) => {
 					<h4>{movie.release_date}</h4>
 				</ul>
 			
-				{movie.genres && movie.genres.map((item, index) => {
-				return(
-					<span key={index} className='movieItem-category'>{item} </span>
-				);
-			})}
+				{movie.genres && movie.genres.map((item, index) => <span key={index} className='movieItem-category'>{item} </span>)}
+				
 				<div className='movieItem-buttons'>
 					<button className='btn btn-editItem' onClick={editMovieDetailsHandler}>Edit</button>
 					<button className='btn btn-removeItem' onClick={removeMovieHandler} >Remove</button>

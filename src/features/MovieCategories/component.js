@@ -1,7 +1,7 @@
-import React, {useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
-import { loadMoviesByGenre, loadMovies } from '../../store/actions/actionCreators';
+import { loadMoviesByGenre, loadMovies } from '../../store/thunk';
 
 const MovieCategories = () => {
 	// REDUX & STATE
@@ -17,8 +17,7 @@ const MovieCategories = () => {
 	])
 
 	// EVENT HANDLERS
-	const changeCategoryCallback = (e) => {
-		const categoryValue = e.target.textContent
+	const changeCategoryCallback = useCallback((categoryValue) => {
 		const categoriesUpdated = categories.map((item) => {
 			if(item.name.toUpperCase() === categoryValue.toUpperCase()){
 				return {...item, active : true};
@@ -29,12 +28,12 @@ const MovieCategories = () => {
 		// update the categories array
 		setCategories(categoriesUpdated);
 		
-		if(e.target.textContent !== 'All'){
+		if(categoryValue !== 'All'){
 			dispatch(loadMoviesByGenre(categoryValue));
 		} else {
 			dispatch(loadMovies());
 		}
-	}
+	}, [dispatch, categories]);
 	return(
 		<aside className='movieSection-categories'>
 			<ul className='category-items'>
@@ -42,7 +41,7 @@ const MovieCategories = () => {
 					<h4 
 						key={item.name} 
 						className={item.active ? 'category-item active' : 'category-item'}
-						onClick={changeCategoryCallback}
+						onClick={() => changeCategoryCallback(item.name)}
 					>
 						{item.name}
 					</h4>

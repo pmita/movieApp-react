@@ -15,7 +15,6 @@ const moviesReducer = (state = initialState, action) => {
     const {movies} = state;
     switch(action.type){
         case LOAD_MOVIES:
-            return {...state, movies : action.payload};
         case LOAD_MOVIES_BY_GENRE:
             return {...state, movies : action.payload};
         case SUBMIT_MOVIE:
@@ -24,8 +23,7 @@ const moviesReducer = (state = initialState, action) => {
             const moviesUpdated = movies.slice().filter((item) => item.id !== action.payload);
             return {...state, movies : moviesUpdated};
         case CHANGE_FILTER:
-            const filterEvent = action.payload;
-            const filterValue = filterEvent.target.value;
+            const filterValue = action.payload;
             const arrToFilter = state.movies;
             const moviesToShowAfterFilter = filterArray(filterValue, arrToFilter);
             return {...state, filter : filterValue, movies: moviesToShowAfterFilter};

@@ -5,7 +5,7 @@ import MovieCategories from '../MovieCategories';
 import MovieItem from '../MovieItem';
 import MovieFilters from '../MovieFilters';
 import { useSelector, useDispatch } from 'react-redux';
-import { loadMovies } from '../../store/actions/actionCreators';
+import { loadMovies } from '../../store/thunk';
 
 const Movies = () => {
     // REDUX & STATE

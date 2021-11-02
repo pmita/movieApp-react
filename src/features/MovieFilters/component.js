@@ -9,14 +9,14 @@ const MovieFilters = ({filter}) => {
 	const dispatch = useDispatch();
 	
 	// EVENT HANDLERS
-	const changeFilterHandler = useCallback((e) => dispatch(changeFilters(e)), [dispatch, changeFilters]);
+	const changeFilterHandler = useCallback((filter) => dispatch(changeFilters(filter)), [dispatch, changeFilters]);
 	
 	return(
 		<aside className='movieSection-filters'>
 			<p>SORT BY</p>
 			<select 
 				value={filter}
-				onChange={changeFilterHandler}
+				onChange={(event) => changeFilterHandler(event.target.value)}
 			>
 				<option
 					value='RELEASE DATE'

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useState, useCallback } from 'react';
 import './style.scss';
 import { useDispatch } from 'react-redux';
@@ -15,7 +14,17 @@ const AddMovie = ({toggleAddMovie, setToggleAddMovie}) => {
 		formValue[e.target.name] = e.target.value;
 		setMovieDetails({...movieDetails, formValue});
 	} 
-	const resetMovieDetailsHandler = useCallback(() => setMovieDetails({ ...movieDetails, title : '', release_date : '', genres : '', vote_average : '', poster_path : '', overview : '', id : ''}), [movieDetails, setMovieDetails]);
+	const resetMovieDetailsHandler = useCallback(() => {
+		setMovieDetails({ 
+			...movieDetails, 
+			title : '', 
+			release_date : '', 
+			genres : '', 
+			vote_average : '', 
+			poster_path : '', 
+			overview : '', 
+			id : ''})}
+			, [movieDetails, setMovieDetails]);
 	const cancelEditMovieHandler = useCallback(() => {
 		setToggleAddMovie(!toggleAddMovie);
 		resetMovieDetailsHandler();
@@ -40,7 +49,7 @@ const AddMovie = ({toggleAddMovie, setToggleAddMovie}) => {
 					</label>
 					<label>
 						RELEASE DATE
-						<input type='text' name='release_date' value={movieDetails.release_date} onChange={updateDetailsHandler} required/>
+						<input type='date' name='release_date' value={movieDetails.release_date} onChange={updateDetailsHandler} required/>
 					</label>
 					<label>
 						MOVIE URL
@@ -64,15 +73,11 @@ const AddMovie = ({toggleAddMovie, setToggleAddMovie}) => {
 					</label>
 					<label>
 						OVERVIEW
-						<input type='text' name='overview' value={movieDetails.overview} onChange={updateDetailsHandler} required/>
-					</label>
-					<label>
-						OVERVIEW
-						<input type='text' name='overview' value={movieDetails.overview} onChange={updateDetailsHandler} required/>
+						<input type='textarea' name='overview' value={movieDetails.overview} onChange={updateDetailsHandler} required/>
 					</label>
 					<label>
 						RATING
-						<input type='text' name='vote_average' value={movieDetails.vote_average} onChange={updateDetailsHandler} required/>
+						<input type='number' name='vote_average' value={movieDetails.vote_average} onChange={updateDetailsHandler} required/>
 					</label>
 					<div className='addMovie-buttons'>
 						<button className='btn btn-cancelItem' onClick={cancelEditMovieHandler}>CANCEL</button>
