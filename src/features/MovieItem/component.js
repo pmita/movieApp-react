@@ -9,6 +9,8 @@ import { removeMovie } from '../../store/actions/actionCreators';
 import MovieDetails from '../MovieDetails/component';
 import { array } from 'prop-types';
 import AddMovie from '../../shared/AddMovie/component';
+// ROUTER
+import { Link } from 'react-router-dom'
 
 const MovieItem = ({ movie, id }) => {
 	// REDUX & STATE
@@ -25,6 +27,9 @@ const MovieItem = ({ movie, id }) => {
 		<>
 			<div className='movieItem-section'>
 				<img src={movie.poster_path} alt='random text' onClick={showMovieDetailsHanlderVol2}/>
+				<button>
+					<Link to={`/films/${id}`}>Check movie</Link>
+				</button>
 				<ul className='movieItem-details'>
 					<h4>{movie.title}</h4>
 					<h4>{movie.release_date}</h4>
