@@ -1,115 +1,124 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import './style.scss';
 // REDUX
 import { useDispatch } from 'react-redux';
 import { submitMovie } from '../../store/actions/actionCreators';
+// FORMIK
+import { useFormik } from 'formik';
 
-const AddMovie = ({toggleAddMovie, setToggleAddMovie, movie}) => {
-	// REDUX AND STATE
-    const [title, setTitle] = useState('');
-    const [date, setDate] = useState('');
-    const [img, setImg] = useState('');
-    const [genres, setGenres] = useState([]);
-    const [overview, setOverview] = useState('');
-    const [vote, setVote] = useState(0);
-	const [newGenre, setNewGenre] = useState('')
-	const newGenreInput = useRef(null)
+const AddMovie = ({ toggleAddMovie, setToggleAddMovie, movie }) => {
+    // STATE
 	const dispatch = useDispatch();
 
-	// useEFFECT
-	useEffect(() => {
-		if(movie){
-			setTitle(movie.title)
-			setDate(movie.date)
-			setImg(movie.poster_path)
-			setGenres(movie.genres)
-			setOverview(movie.overview)
-			setVote(movie.vote_average)
-		}
-	}, [])
+    const validate = (values) => {
+        const errors = {}
 
-	// EVENT HANDLERS
-	const addGenreHanlder = (e) => {
-		e.preventDefault();
-		const genreTrimmed = newGenre.trim();
+        if(!values.vote){
+            errors.vote = 'Required'
+        } else if(values.vote.length > 10){
+            errors.vote = 'Rating must be between 0 - 10'
+        }
 
-		if(genreTrimmed && !genres.includes(genreTrimmed)){
-			setGenres((prevState) => [...prevState, genreTrimmed])
-		}
+        if(!values.overview){
+            errors.overview = 'Required'
+        } else if(values.overview.length < 50){
+            errors.overview = 'Please provide a longer description'
+        }
 
-		setNewGenre('')
-		newGenreInput.current.focus();
-	}
-	const resetMovieDetailsHandler = useCallback(() => {
-        setTitle('');
-        setDate('');
-        setImg('');
-        setGenres([]);
-        setOverview('');
-        setVote(0)}, [setTitle, setDate, setImg, setGenres, setOverview, setVote]);
+        return errors;
+    }
+
+    const formik = useFormik({
+        initialValues : {
+            title : movie ? movie.title : '',
+            date : movie ? movie.date : '',
+            img : movie ? movie.poster_path : '',
+            genres : movie ? movie.genres : [],
+            overview : movie ? movie.overview : '',
+            vote : movie ? movie.vote_average : null
+        },
+        enableReinitialize : true,
+        validate,
+        onSubmit : (values) => {
+            dispatch(submitMovie(values));
+		    cancelEditMovieHandler();
+        }
+    })
 
 	const cancelEditMovieHandler = useCallback(() => {
 		setToggleAddMovie(!toggleAddMovie);
-		resetMovieDetailsHandler();
-	}, [toggleAddMovie, setToggleAddMovie, resetMovieDetailsHandler]);
-
-	const submitMovieHandler = useCallback((event) => {
-		event.preventDefault();
-        const item = {
-			title: title,
-            release_date : date,
-            genres : genres,
-            vote_average : vote,
-            poster_path : img,
-            overview : overview,
-			id : Math.random()
-        } 
-        
-		dispatch(submitMovie(item));
-		setToggleAddMovie(!toggleAddMovie);
-	}, [dispatch, toggleAddMovie, setToggleAddMovie, title, date, genres, vote, img, overview]);
+        formik.handleReset()
+	}, [toggleAddMovie, setToggleAddMovie]);
 	
 	return(
 		<div className='addMovie-section'>
 			<div className='addMovie-details'>
 				<h2>EDIT MOVIE</h2>
-				<form onSubmit={submitMovieHandler}>
+				<form onSubmit={formik.handleSubmit}>
 					<label>
 						<span>TITLE</span>
-						<input type='text' value={title} onChange={(e) => setTitle(e.target.value)} required/>
+						<input 
+							type='text' 
+							name='title' 
+							value={formik.values.title} 
+							onChange={formik.handleChange}
+						/>
 					</label>
 					<label>
 						<span>RELEASE DATE</span>
-						<input type='date' value={date} onChange={(e) => setDate(e.target.value)} required/>
+						<input 
+							type='date' 
+							name='date' 
+							value={formik.values.date} 
+							onChange={formik.handleChange}
+						/>
 					</label>
 					<label>
 						<span>MOVIE URL</span>
-						<input type='text' value={img} onChange={(e) => setImg(e.target.value)} required/>
+						<input 
+							type='text' 
+							name='img' 
+							value={formik.values.img} 
+							onChange={formik.handleChange}
+						/>
 					</label>
 					<label>
 						<span>GENRES: </span>
-						<div className='genres'>
-							<input
-								type='text'
-								onChange={(e) => setNewGenre(e.target.value)}
-								value={newGenre}
-								ref={newGenreInput}
-							/>
-							<button className='btn btn-addItem' onClick={addGenreHanlder}>Add</button>
-						</div>
+						<input
+							type='text'
+							name='genres'
+							onChange={formik.handleChange}
+							value={formik.values.genres}
+						/>
 					</label>
-					<p>Current Genres : {genres.map((item) => <em key={item}>{item}, </em>)}</p>
+					{/* <p>Current Genres : {genres.map((item) => <em key={item}>{item}, </em>)}</p>*/}
 					<label>
 						<span>OVERVIEW</span>
-						<textarea type='text' value={overview} onChange={(e) => setOverview(e.target.value)} required />
+						<textarea 
+							type='text' 
+							name='overview' 
+							value={formik.values.overview} 
+							onChange={formik.handleChange}
+						/>
+						{formik.errors.overview && <p>{formik.errors.overview}</p>}
+						{formik.touched.overview && (
+                            formik.errors.overview ? <p>{formik.errors.overview}</p> : null
+                        )}
 					</label>
 					<label>
 						<span>RATING</span>
-						<input type='number' value={vote} onChange={(e) => setVote(e.target.value)} required/>
+						<input 
+							type='number' 
+							name='vote' 
+							value={formik.values.vote} 
+							onChange={formik.handleChange} 
+							onBlur={formik.handleBlur}
+						/>
+						{formik.touched.vote && formik.errors.vote ? <p>{formik.errors.vote}</p> : null}
 					</label>
 					<div className='addMovie-buttons'>
 						<button className='btn btn-cancelItem' onClick={cancelEditMovieHandler}>CANCEL</button>
-						<button className='btn btn-resetItem'onClick={resetMovieDetailsHandler}>RESET</button>
+						<button className='btn btn-resetItem' onClick={formik.handleReset}>RESET</button>
 						<button type='submit' className='btn btn-addItem'>SUBMIT</button>
 					</div>
 				</form>

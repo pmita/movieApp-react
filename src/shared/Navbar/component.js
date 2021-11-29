@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import style from './style.module.scss';
 // COMPONENTS
-import AddMovie from '../AddMovie/component';
-
+// import AddMovie from '../AddMovie/component';
+import AddMovie from '../AddMovie/component'
 
 const Navbar = () => {
 	// REDUX & STATE
