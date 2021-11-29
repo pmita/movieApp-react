@@ -91,7 +91,6 @@ const AddMovie = ({ toggleAddMovie, setToggleAddMovie, movie }) => {
 							value={formik.values.genres}
 						/>
 					</label>
-					{/* <p>Current Genres : {genres.map((item) => <em key={item}>{item}, </em>)}</p>*/}
 					<label>
 						<span>OVERVIEW</span>
 						<textarea 
@@ -100,7 +99,6 @@ const AddMovie = ({ toggleAddMovie, setToggleAddMovie, movie }) => {
 							value={formik.values.overview} 
 							onChange={formik.handleChange}
 						/>
-						{formik.errors.overview && <p>{formik.errors.overview}</p>}
 						{formik.touched.overview && (
                             formik.errors.overview ? <p>{formik.errors.overview}</p> : null
                         )}
