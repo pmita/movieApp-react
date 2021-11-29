@@ -13,13 +13,13 @@ const Movies = () => {
     const filter = useSelector((state) => state.movieApp.filter);
 	const dispatch = useDispatch();
 
+	// useEFFECT
 	useEffect(() => {
 		dispatch(loadMovies());
 	}, []);
 	
         return (
 	<section className='moviesSection'>
-
 		<div className='moviesSection-options'>
 			<MovieCategories />
 			<MovieFilters filters={filter} />

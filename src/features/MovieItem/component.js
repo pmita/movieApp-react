@@ -5,8 +5,10 @@ import './style.scss';
 import { useDispatch } from 'react-redux';
 import { removeMovie } from '../../store/actions/actionCreators';
 // COMPONENTS
-import EditMovie from '../../shared/EditMovie';
+// import EditMovie from '../../shared/EditMovie';
 import MovieDetails from '../MovieDetails/component';
+import { array } from 'prop-types';
+import AddMovie from '../../shared/AddMovie/component';
 
 const MovieItem = ({ movie, id }) => {
 	// REDUX & STATE
@@ -28,7 +30,10 @@ const MovieItem = ({ movie, id }) => {
 					<h4>{movie.release_date}</h4>
 				</ul>
 			
-				{movie.genres && movie.genres.map((item, index) => <span key={index} className='movieItem-category'>{item} </span>)}
+				{typeof(movie.genres) === typeof(array) 
+					?movie.genres.map((item, index) => <span key={index} className='movieItem-category'>{item} </span>)
+					:<span>{movie.genres}</span>
+				}
 				
 				<div className='movieItem-buttons'>
 					<button className='btn btn-editItem' onClick={editMovieDetailsHandler}>Edit</button>
@@ -36,10 +41,10 @@ const MovieItem = ({ movie, id }) => {
 				</div>
 			</div>
 			{!isHidden &&
-				<EditMovie
+				<AddMovie
 					movie={movie}
-					isHidden={isHidden}
-					setIsHidden={setIsHidden}
+					toggleAddMovie={isHidden}
+					setToggleAddMovie={setIsHidden}
 				/>
 			}
 			{toggleMovieDetails &&

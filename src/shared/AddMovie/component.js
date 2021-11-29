@@ -1,83 +1,111 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import './style.scss';
+// REDUX
 import { useDispatch } from 'react-redux';
-import {  submitMovie } from '../../store/actions/actionCreators';
+import { submitMovie } from '../../store/actions/actionCreators';
 
-const AddMovie = ({toggleAddMovie, setToggleAddMovie}) => {
+const AddMovie = ({toggleAddMovie, setToggleAddMovie, movie}) => {
 	// REDUX AND STATE
-	const [movieDetails, setMovieDetails] = useState({title : '', release_date : '', genre : '', vote_average : '', poster_path : '', overview : '', id : ''});
+    const [title, setTitle] = useState('');
+    const [date, setDate] = useState('');
+    const [img, setImg] = useState('');
+    const [genres, setGenres] = useState([]);
+    const [overview, setOverview] = useState('');
+    const [vote, setVote] = useState(0);
+	const [newGenre, setNewGenre] = useState('')
+	const newGenreInput = useRef(null)
 	const dispatch = useDispatch();
 
+	// useEFFECT
+	useEffect(() => {
+		if(movie){
+			setTitle(movie.title)
+			setDate(movie.date)
+			setImg(movie.poster_path)
+			setGenres(movie.genres)
+			setOverview(movie.overview)
+			setVote(movie.vote_average)
+		}
+	}, [])
+
 	// EVENT HANDLERS
-	const updateDetailsHandler = (e) => {
-		const formValue = movieDetails;
-		formValue[e.target.name] = e.target.value;
-		setMovieDetails({...movieDetails, formValue});
-	} 
+	const addGenreHanlder = (e) => {
+		e.preventDefault();
+		const genreTrimmed = newGenre.trim();
+
+		if(genreTrimmed && !genres.includes(genreTrimmed)){
+			setGenres((prevState) => [...prevState, genreTrimmed])
+		}
+
+		setNewGenre('')
+		newGenreInput.current.focus();
+	}
 	const resetMovieDetailsHandler = useCallback(() => {
-		setMovieDetails({ 
-			...movieDetails, 
-			title : '', 
-			release_date : '', 
-			genres : '', 
-			vote_average : '', 
-			poster_path : '', 
-			overview : '', 
-			id : ''})}
-			, [movieDetails, setMovieDetails]);
+        setTitle('');
+        setDate('');
+        setImg('');
+        setGenres([]);
+        setOverview('');
+        setVote(0)}, [setTitle, setDate, setImg, setGenres, setOverview, setVote]);
+
 	const cancelEditMovieHandler = useCallback(() => {
 		setToggleAddMovie(!toggleAddMovie);
 		resetMovieDetailsHandler();
 	}, [toggleAddMovie, setToggleAddMovie, resetMovieDetailsHandler]);
-	const submitMovieDetailsHandler = useCallback((event) => {
-		event.preventDefault();
-		dispatch(submitMovie(movieDetails));
-		setToggleAddMovie(!toggleAddMovie);
-	}, [ dispatch, toggleAddMovie, setToggleAddMovie]);
 
-	// VARIABLES
-	 const setGenres = ['', 'Drama', 'Adventure', 'Crime', 'Comedy', 'Thriller'];
+	const submitMovieHandler = useCallback((event) => {
+		event.preventDefault();
+        const item = {
+			title: title,
+            release_date : date,
+            genres : genres,
+            vote_average : vote,
+            poster_path : img,
+            overview : overview,
+			id : Math.random()
+        } 
+        
+		dispatch(submitMovie(item));
+		setToggleAddMovie(!toggleAddMovie);
+	}, [dispatch, toggleAddMovie, setToggleAddMovie, title, date, genres, vote, img, overview]);
 	
 	return(
 		<div className='addMovie-section'>
 			<div className='addMovie-details'>
-				<h2>ADD MOVIE</h2>
-				<form onSubmit={submitMovieDetailsHandler}>
+				<h2>EDIT MOVIE</h2>
+				<form onSubmit={submitMovieHandler}>
 					<label>
-						TITLE
-						<input type='text' name='title' value={movieDetails.title} onChange={updateDetailsHandler} required/>
+						<span>TITLE</span>
+						<input type='text' value={title} onChange={(e) => setTitle(e.target.value)} required/>
 					</label>
 					<label>
-						RELEASE DATE
-						<input type='date' name='release_date' value={movieDetails.release_date} onChange={updateDetailsHandler} required/>
+						<span>RELEASE DATE</span>
+						<input type='date' value={date} onChange={(e) => setDate(e.target.value)} required/>
 					</label>
 					<label>
-						MOVIE URL
-						<input type='text' name='poster_path' value={movieDetails.poster_path} onChange={updateDetailsHandler} required/>
+						<span>MOVIE URL</span>
+						<input type='text' value={img} onChange={(e) => setImg(e.target.value)} required/>
 					</label>
 					<label>
-						GENRE
-					
-						<select 
-							type='select'
-							name='genre'
-							value={movieDetails.genre}
-							onChange={updateDetailsHandler}
-						>
-							{setGenres.map((item, index) => {
-								return(
-									<option key={index} value={item}>{item}</option>
-								);
-							})}
-						</select>
+						<span>GENRES: </span>
+						<div className='genres'>
+							<input
+								type='text'
+								onChange={(e) => setNewGenre(e.target.value)}
+								value={newGenre}
+								ref={newGenreInput}
+							/>
+							<button className='btn btn-addItem' onClick={addGenreHanlder}>Add</button>
+						</div>
+					</label>
+					<p>Current Genres : {genres.map((item) => <em key={item}>{item}, </em>)}</p>
+					<label>
+						<span>OVERVIEW</span>
+						<textarea type='text' value={overview} onChange={(e) => setOverview(e.target.value)} required />
 					</label>
 					<label>
-						OVERVIEW
-						<input type='textarea' name='overview' value={movieDetails.overview} onChange={updateDetailsHandler} required/>
-					</label>
-					<label>
-						RATING
-						<input type='number' name='vote_average' value={movieDetails.vote_average} onChange={updateDetailsHandler} required/>
+						<span>RATING</span>
+						<input type='number' value={vote} onChange={(e) => setVote(e.target.value)} required/>
 					</label>
 					<div className='addMovie-buttons'>
 						<button className='btn btn-cancelItem' onClick={cancelEditMovieHandler}>CANCEL</button>

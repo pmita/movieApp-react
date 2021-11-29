@@ -19,9 +19,9 @@ const MovieFilters = ({filter}) => {
 				onChange={(event) => changeFilterHandler(event.target.value)}
 			>
 				<option
-					value='RELEASE DATE'
+					value='DATE'
 				>
-					RELEASE DATE
+					DATE
 				</option>
 				<option
 					value='RATE'
