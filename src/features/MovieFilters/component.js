@@ -1,23 +1,32 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { useCallback } from 'react';
 import './style.scss';
+import { useDispatch } from 'react-redux';
+import { changeFilters } from '../../store/actions/actionCreators';
 
-const MovieFilters = ({filter, changeFilterHandler}) => {
+const MovieFilters = ({filter}) => {
+	// REDUX
+	const dispatch = useDispatch();
+	
+	// EVENT HANDLERS
+	const changeFilterHandler = useCallback((filter) => dispatch(changeFilters(filter)), [dispatch, changeFilters]);
+	
 	return(
 		<aside className='movieSection-filters'>
 			<p>SORT BY</p>
 			<select 
 				value={filter}
-				onChange={changeFilterHandler}
+				onChange={(event) => changeFilterHandler(event.target.value)}
 			>
 				<option
-					value='RELEASE DATE'
+					value='DATE'
 				>
-					RELEASE DATE
+					DATE
 				</option>
 				<option
-					value='STARS'
+					value='RATE'
 				>
-					STARS
+					RATE
 				</option>
 			</select>
 		</aside>

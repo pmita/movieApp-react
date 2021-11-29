@@ -2,10 +2,10 @@ import React, { useState, useCallback } from 'react';
 import './style.scss';
 
 const SearchBar = () => {
-    // define our local state
+    // STATE, local
     const [searchInput, setSearchInput] = useState('');
 
-    // define our events handlers
+    // EVENT HANDLERS
     const searchMovieHandler = useCallback((e) => {
         e.preventDefault();
     }, []);

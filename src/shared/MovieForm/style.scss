@@ -35,9 +35,7 @@
             margin: 1rem 0;
             color: $red-color;
             font-size: $h4;
-            input,
-            textarea,
-            div{
+            input, select{
                 width:100%;
                 background: $light-grey-color;
                 color: $white-color;
@@ -47,10 +45,6 @@
             }
         }
     }
-}
-
-.genres{
-    @include flex(row, space-evenly, center);
 }
 
 .addMovie-buttons{

@@ -1,31 +1,27 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React, {useCallback} from 'react';
 import style from './style.module.scss';
 
-const MovieDetails = ({
-    showMovie,
-	setShowMovie,
-	movieDetails
-}) => {
-    // define our event handlers
-    const closeMovieDetailsHandler = useCallback(() => {
-		setShowMovie((prevShowMovie) => !prevShowMovie);
-    }, [showMovie, setShowMovie]);
-	
+const MovieDetails = ({movie, toggleMovieDetails, setToggleMovieDetails}) => {
+
+	// EVENT HANDLERS
+	const closeMovieDetails = useCallback(() => setToggleMovieDetails(!toggleMovieDetails), [toggleMovieDetails, setToggleMovieDetails]);
+
     return(
 	<div className={style.movieDetails_section}>
-		<img src={movieDetails.img} alt='Details about chosen movie' />
+		<img src={movie.poster_path} alt='Details about chosen movie' />
 		<div className={style.movieDetails_content}>
-			<h2>{movieDetails.name}</h2>
-			<p>{movieDetails.category}</p>
+			<h2>{movie.title}</h2>
+			{movie.genres.map((item, index) => <p key={index}>{item} </p>)}
 			<ul className={style.movieDetails_info}>
-				<h4>{movieDetails.date}</h4>
-				<h4>{movieDetails.rating}</h4>
+				<h4>{movie.release_date}</h4>
+				<h4>{movie.vote_average}</h4>
 			</ul>
-			<p>{movieDetails.overview}</p>
+			<p>{movie.overview}</p>
 			<button 
 				className={style.btn}
-				onClick={closeMovieDetailsHandler}
+				onClick={closeMovieDetails}
 			>  
 				Close
 			</button>
