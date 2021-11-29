@@ -1,0 +1,25 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+@import '../../assets/styles/global';
+
+.errorPage{
+    width: 100%;
+    min-height: 90vh;
+    background: $black-color;
+    color: $red-color;
+    display: grid;
+    place-content: center;
+}
+
+.btn{
+    margin-top: 5rem;
+    background: $red-color;
+    color: $white-color;
+    border: 2px solid $red-color;
+    transition: $transition;
+    cursor: pointer;
+    &:hover{
+        color: $red-color;
+        background: $white-color;
+    }
+}

@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import './style.scss';
+// ROUTER
+import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
     // STATE, local
     const [searchInput, setSearchInput] = useState('');
+	const navigate = useNavigate();
 
     // EVENT HANDLERS
-    const searchMovieHandler = useCallback((e) => {
+    const searchMovieHandler = (e) => {
         e.preventDefault();
-    }, []);
-
-    const changeSearchInputHandler = useCallback((e) => {
-        setSearchInput(e.target.value);
-    }, [setSearchInput]);
+		navigate(`/search?query=${searchInput}`)
+    }
 	
     return(
 	<div className='bannerSection-searchBar'>
@@ -20,9 +20,10 @@ const SearchBar = () => {
 		<form onSubmit={searchMovieHandler}>
 			<input 
 				type='text' 
-				placeholder='What movie do you want to see?'
+				name='movie'
+				placeholder='Please enter a movie'
+				onChange={(e) => setSearchInput(e.target.value)}
 				value={searchInput}
-				onChange={changeSearchInputHandler}
 			/>
 			<button className='btn-searchMovie'>SEARCH</button>
 		</form>
